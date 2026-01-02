@@ -39,10 +39,24 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
-    @DeleteMapping("/{id}") // CANCEL reservation
-    public ResponseEntity<Void> cancelReservation(@PathVariable Long id) {
-
-        reservationService.cancelReservation(id);
+    @DeleteMapping("/{id}")  // DELETE reservation
+    public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {
+        reservationService.deleteReservation(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/cancel/{id}") // ADMIN
+    public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.cancelReservation(id));
+    }
+    @PutMapping("/approve/{id}") // ADMIN
+    public ResponseEntity<ReservationResponseDTO> approveReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.approveReservation(id));
+    }
+
+    @PutMapping("/reject/{id}") // ADMIN
+    public ResponseEntity<ReservationResponseDTO> rejectReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.rejectReservation(id));
+    }
+
 }

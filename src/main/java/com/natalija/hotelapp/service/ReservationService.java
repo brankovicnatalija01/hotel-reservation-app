@@ -8,10 +8,11 @@ import java.util.List;
 public interface ReservationService {
 
     ReservationResponseDTO createReservation(ReservationCreateRequestDTO dto);
-
     ReservationResponseDTO getReservationById(Long id);
-
     List<ReservationResponseDTO> getAllReservations();
+    void deleteReservation(Long reservationId);
 
-    void cancelReservation(Long id);
+    ReservationResponseDTO cancelReservation(Long id);
+    ReservationResponseDTO approveReservation(Long reservationId);
+    ReservationResponseDTO rejectReservation(Long reservationId);
 }

@@ -79,11 +79,55 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void cancelReservation(Long id) {
-        Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservation not found"));
+    public void deleteReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        reservationRepository.delete(reservation);
+    }
+
+    @Override
+    public ReservationResponseDTO cancelReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        if (reservation.getStatus() == ReservationStatus.CANCELLED) {
+            throw new RuntimeException("Reservation is already cancelled");
+        }
 
         reservation.setStatus(ReservationStatus.CANCELLED);
-        reservationRepository.save(reservation);
+        Reservation saved = reservationRepository.save(reservation);
+
+        return reservationMapper.toDto(saved);
+    }
+
+    @Override
+    public ReservationResponseDTO approveReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        if (reservation.getStatus() != ReservationStatus.PENDING) {
+            throw new RuntimeException("Only PENDING reservations can be approved");
+        }
+
+        reservation.setStatus(ReservationStatus.CONFIRMED);
+        Reservation saved = reservationRepository.save(reservation);
+
+        return reservationMapper.toDto(saved);
+    }
+
+    @Override
+    public ReservationResponseDTO rejectReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        if (reservation.getStatus() != ReservationStatus.PENDING) {
+            throw new RuntimeException("Only PENDING reservations can be rejected");
+        }
+
+        reservation.setStatus(ReservationStatus.REJECTED);
+        Reservation saved = reservationRepository.save(reservation);
+
+        return reservationMapper.toDto(saved);
     }
 }

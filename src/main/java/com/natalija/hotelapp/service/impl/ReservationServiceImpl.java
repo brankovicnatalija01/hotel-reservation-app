@@ -1,7 +1,7 @@
 package com.natalija.hotelapp.service.impl;
 
-import com.natalija.hotelapp.dto.ReservationCreateRequestDTO;
-import com.natalija.hotelapp.dto.ReservationResponseDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
 import com.natalija.hotelapp.entity.Reservation;
 import com.natalija.hotelapp.entity.Room;
 import com.natalija.hotelapp.entity.User;
@@ -12,6 +12,7 @@ import com.natalija.hotelapp.repository.RoomRepository;
 import com.natalija.hotelapp.repository.UserRepository;
 import com.natalija.hotelapp.service.ReservationService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -28,15 +30,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomRepository roomRepository;
     private final ReservationMapper reservationMapper;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository,
-                                  UserRepository userRepository,
-                                  RoomRepository roomRepository,
-                                  ReservationMapper reservationMapper) {
-        this.reservationRepository = reservationRepository;
-        this.userRepository = userRepository;
-        this.roomRepository = roomRepository;
-        this.reservationMapper = reservationMapper;
-    }
     @Override
     public ReservationResponseDTO createReservation(ReservationCreateRequestDTO dto) {
         User user = userRepository.findById(dto.getUserId())
@@ -49,19 +42,25 @@ public class ReservationServiceImpl implements ReservationService {
             throw new RuntimeException("Check-out date must be after check-in date");
         }
 
-        Reservation reservation =
-                reservationMapper.toEntity(dto, user, room);
+        Reservation reservation = reservationMapper.toEntity(dto);
+        reservation.setUser(user);
+        reservation.setRoom(room);
+        reservation.setStatus(ReservationStatus.PENDING);
 
         long nights = ChronoUnit.DAYS.between(
                 dto.getCheckInDate(), dto.getCheckOutDate());
 
         BigDecimal totalPrice = room.getPricePerNight().multiply(BigDecimal.valueOf(nights));
 
+        if (nights <= 0) {
+            throw new RuntimeException("Reservation must be at least 1 night");
+        }
+
         reservation.setTotalPrice(totalPrice);
 
         Reservation saved = reservationRepository.save(reservation);
 
-        return reservationMapper.toResponseDto(saved);
+        return reservationMapper.toDto(saved);
     }
 
     @Override
@@ -69,13 +68,13 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
-        return reservationMapper.toResponseDto(reservation);
+        return reservationMapper.toDto(reservation);
     }
 
     @Override
     public List<ReservationResponseDTO> getAllReservations() {
         return reservationRepository.findAll().stream()
-                .map(reservationMapper::toResponseDto)
+                .map(reservationMapper::toDto)
                 .collect(Collectors.toList());
     }
 

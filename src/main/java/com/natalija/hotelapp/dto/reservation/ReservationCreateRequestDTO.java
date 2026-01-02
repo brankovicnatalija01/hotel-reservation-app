@@ -1,5 +1,5 @@
 
-package com.natalija.hotelapp.dto;
+package com.natalija.hotelapp.dto.reservation;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package com.natalija.hotelapp.service;
 
-import com.natalija.hotelapp.dto.ReservationCreateRequestDTO;
-import com.natalija.hotelapp.dto.ReservationResponseDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
 
 import java.util.List;
 

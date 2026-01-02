@@ -1,4 +1,4 @@
-package com.natalija.hotelapp.dto;
+package com.natalija.hotelapp.dto.reservation;
 
 import lombok.*;
 

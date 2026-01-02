@@ -1,51 +1,57 @@
 package com.natalija.hotelapp.mapper.impl;
 
-import com.natalija.hotelapp.dto.RoomResponseDTO;
+import com.natalija.hotelapp.dto.room.RoomRequestDTO;
+import com.natalija.hotelapp.dto.room.RoomResponseDTO;
 import com.natalija.hotelapp.entity.Amenity;
 import com.natalija.hotelapp.entity.Room;
 import com.natalija.hotelapp.mapper.Mapper;
+import com.natalija.hotelapp.repository.AmenityRepository;
+import com.natalija.hotelapp.repository.PropertyRepository;
+import com.natalija.hotelapp.repository.RoomTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
-public class RoomMapper implements Mapper<RoomResponseDTO, Room> {
+public class RoomMapper implements Mapper<RoomRequestDTO, RoomResponseDTO, Room> {
 
     @Override
-    public Room toEntity(RoomResponseDTO roomResponseDTO) {
-        throw new UnsupportedOperationException(
-                "RoomResponseDTO is for read-only operations"
-        );
+    public Room toEntity(RoomRequestDTO dto) {
+        if (dto == null) return null;
+
+        Room room = new Room();
+        room.setRoomNumber(dto.getRoomNumber());
+        room.setPricePerNight(dto.getPricePerNight());
+        room.setDescription(dto.getDescription());
+
+        return room;
     }
 
     @Override
     public RoomResponseDTO toDto(Room room) {
+        if (room == null) {
+            return null;
+        }
+
         RoomResponseDTO dto = new RoomResponseDTO();
         dto.setId(room.getId());
         dto.setRoomNumber(room.getRoomNumber());
         dto.setPricePerNight(room.getPricePerNight());
         dto.setDescription(room.getDescription());
 
-        if (room.getProperty() != null) {
-            dto.setPropertyId(room.getProperty().getId());
-            dto.setPropertyName(room.getProperty().getName());
-        }
+        dto.setPropertyId(room.getProperty().getId());
+        dto.setPropertyName(room.getProperty().getName());
 
-        if (room.getRoomType() != null) {
-            dto.setRoomTypeId(room.getRoomType().getId());
-            dto.setRoomTypeName(room.getRoomType().getName());
-        }
+        dto.setRoomTypeId(room.getRoomType().getId());
+        dto.setRoomTypeName(room.getRoomType().getName());
 
-        if (room.getAmenities() != null) {
-            dto.setAmenities(
-                    room.getAmenities()
-                            .stream()
-                            .map(Amenity::getName)
-                            .collect(Collectors.toList())
-            );
-        }
+        dto.setAmenities(
+                room.getAmenities().stream().map(Amenity::getName).toList()
+        );
 
         return dto;
-    }
+        }
     }
 

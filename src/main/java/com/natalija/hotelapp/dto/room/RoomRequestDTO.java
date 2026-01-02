@@ -1,8 +1,7 @@
-package com.natalija.hotelapp.dto;
+package com.natalija.hotelapp.dto.room;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,22 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RoomResponseDTO implements Serializable {
-
-    private Long id;
+public class RoomRequestDTO {
     private String roomNumber;
     private BigDecimal pricePerNight;
     private String description;
-
-    //Property
     private Long propertyId;
-    private String propertyName;
-
-    // Room type
     private Long roomTypeId;
-    private String roomTypeName;
-
-    // Amenities
-    private List<String> amenities;
-
+    private List<Long> amenityIds;
 }

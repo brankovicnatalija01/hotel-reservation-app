@@ -5,8 +5,8 @@ package com.natalija.hotelapp.mapper;
  * @param <Entity>
  */
 
-public interface Mapper <Dto, Entity>{
-    Entity toEntity(Dto dto);
-    Dto toDto(Entity entity);
+public interface Mapper<ReqDTO, ResDTO, Entity>{
+    Entity toEntity(ReqDTO dto);
+    ResDTO toDto(Entity entity);
 
 }

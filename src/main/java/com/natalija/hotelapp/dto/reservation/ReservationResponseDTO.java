@@ -13,12 +13,14 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @ToString
 public class ReservationResponseDTO implements Serializable {
-
     private Long reservationId;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String status;
     private BigDecimal totalPrice;
     private Long roomId;
+    private String roomNumber;
     private Long userId;
+    private String userFirstName;
+    private String userLastName;
 }

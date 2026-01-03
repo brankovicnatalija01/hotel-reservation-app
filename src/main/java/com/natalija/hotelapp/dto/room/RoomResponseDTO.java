@@ -12,7 +12,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class RoomResponseDTO implements Serializable {
-
     private Long id;
     private String roomNumber;
     private BigDecimal pricePerNight;

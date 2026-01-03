@@ -1,7 +1,8 @@
 package com.natalija.hotelapp.controller;
 
-import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationRequestDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import com.natalija.hotelapp.service.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping // Create Reservation
-    public ResponseEntity<ReservationResponseDTO> createReservation(@Valid @RequestBody ReservationCreateRequestDTO dto) {
+    public ResponseEntity<ReservationResponseDTO> createReservation(@Valid @RequestBody ReservationRequestDTO dto) {
 
         ReservationResponseDTO response = reservationService.createReservation(dto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -57,6 +58,11 @@ public class ReservationController {
     @PutMapping("/reject/{id}") // ADMIN
     public ResponseEntity<ReservationResponseDTO> rejectReservation(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.rejectReservation(id));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ReservationResponseDTO>> searchReservations(@RequestBody ReservationSearchRequestDTO request) {
+        return ResponseEntity.ok(reservationService.search(request));
     }
 
 }

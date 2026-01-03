@@ -1,7 +1,8 @@
 package com.natalija.hotelapp.service.impl;
 
-import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationRequestDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import com.natalija.hotelapp.entity.Reservation;
 import com.natalija.hotelapp.entity.Room;
 import com.natalija.hotelapp.enums.ReservationStatus;
@@ -11,10 +12,12 @@ import com.natalija.hotelapp.repository.ReservationRepository;
 import com.natalija.hotelapp.repository.RoomRepository;
 import com.natalija.hotelapp.repository.UserRepository;
 import com.natalija.hotelapp.service.ReservationService;
+import com.natalija.hotelapp.specification.ReservationSpecification;
 import com.natalija.hotelapp.validator.ReservationValidator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -35,7 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationValidator reservationValidator;
 
     @Override
-    public ReservationResponseDTO createReservation(ReservationCreateRequestDTO dto) {
+    public ReservationResponseDTO createReservation(ReservationRequestDTO dto) {
         reservationValidator.validate(dto);
 
         Reservation reservation = reservationMapper.toEntity(dto);
@@ -112,5 +115,15 @@ public class ReservationServiceImpl implements ReservationService {
 
         Reservation saved = reservationRepository.save(reservation);
         return reservationMapper.toDto(saved);
+    }
+
+    @Override
+    public List<ReservationResponseDTO> search(ReservationSearchRequestDTO request) {
+        Specification<Reservation> specification = ReservationSpecification.filter(request);
+
+        return reservationRepository.findAll(specification)
+                .stream()
+                .map(reservationMapper::toDto)
+                .toList();
     }
 }

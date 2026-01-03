@@ -1,6 +1,6 @@
 package com.natalija.hotelapp.validator;
 
-import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationRequestDTO;
 import com.natalija.hotelapp.entity.Room;
 import com.natalija.hotelapp.exception.ValidationException;
 import com.natalija.hotelapp.repository.ReservationRepository;
@@ -15,14 +15,14 @@ import java.time.temporal.ChronoUnit;
 
 @AllArgsConstructor
 @Component
-public class ReservationValidator implements Validator<ReservationCreateRequestDTO> {
+public class ReservationValidator implements Validator<ReservationRequestDTO> {
 
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final ReservationRepository reservationRepository;
 
     @Override
-    public void validate(ReservationCreateRequestDTO dto) throws ValidationException {
+    public void validate(ReservationRequestDTO dto) throws ValidationException {
         userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + dto.getUserId()));
 

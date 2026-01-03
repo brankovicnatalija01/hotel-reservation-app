@@ -1,13 +1,13 @@
 package com.natalija.hotelapp.service;
 
-import com.natalija.hotelapp.dto.reservation.ReservationCreateRequestDTO;
+import com.natalija.hotelapp.dto.reservation.ReservationRequestDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
-
+import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import java.util.List;
 
 public interface ReservationService {
 
-    ReservationResponseDTO createReservation(ReservationCreateRequestDTO dto);
+    ReservationResponseDTO createReservation(ReservationRequestDTO dto);
     ReservationResponseDTO getReservationById(Long id);
     List<ReservationResponseDTO> getAllReservations();
     void deleteReservation(Long reservationId);
@@ -15,4 +15,7 @@ public interface ReservationService {
     ReservationResponseDTO cancelReservation(Long id);
     ReservationResponseDTO approveReservation(Long reservationId);
     ReservationResponseDTO rejectReservation(Long reservationId);
+
+    public List<ReservationResponseDTO> search(ReservationSearchRequestDTO request);
+
 }

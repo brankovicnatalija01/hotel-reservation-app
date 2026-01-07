@@ -40,6 +40,8 @@ public class RoomMapper implements Mapper<RoomRequestDTO, RoomResponseDTO, Room>
 
         dto.setRoomTypeId(room.getRoomType().getId());
         dto.setRoomTypeName(room.getRoomType().getName());
+        dto.setRoomTypeDescription(room.getRoomType().getDescription());
+        dto.setRoomTypeCapacity(room.getRoomType().getCapacity());
 
         dto.setAmenities(
                 room.getAmenities().stream().map(Amenity::getName).toList()
@@ -54,6 +56,5 @@ public class RoomMapper implements Mapper<RoomRequestDTO, RoomResponseDTO, Room>
         }
 
         return dto;
-        }
     }
-
+}

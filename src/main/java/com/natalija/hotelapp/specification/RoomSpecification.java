@@ -17,20 +17,12 @@ public class RoomSpecification {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            // ROOM TYPE
-            if (req.getRoomType() != null && !req.getRoomType().isBlank()) {
+            // CAPACITY
+            if (req.getCapacity() > 0) {
                 predicates.add(
-                        cb.equal(
-                                cb.lower(
-                                        cb.function(
-                                                "replace",
-                                                String.class,
-                                                cb.lower(root.get("roomType").get("name")),
-                                                cb.literal(" "),
-                                                cb.literal("")
-                                        )
-                                ),
-                                req.getRoomType().toLowerCase().replace(" ", "")
+                        cb.greaterThanOrEqualTo(
+                                root.get("roomType").get("capacity"),
+                                req.getCapacity()
                         )
                 );
             }

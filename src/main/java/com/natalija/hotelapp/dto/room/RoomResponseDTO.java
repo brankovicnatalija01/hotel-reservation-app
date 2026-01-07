@@ -24,6 +24,8 @@ public class RoomResponseDTO implements Serializable {
     // Room type
     private Long roomTypeId;
     private String roomTypeName;
+    private String roomTypeDescription;
+    private int roomTypeCapacity;
 
     // Amenities
     private List<String> amenities;

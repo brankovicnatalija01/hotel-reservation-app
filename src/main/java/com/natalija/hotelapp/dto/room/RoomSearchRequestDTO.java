@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class RoomSearchRequestDTO implements Serializable {
-    private String roomType;
+    private Integer capacity;
     private List<String> amenities;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;

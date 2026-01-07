@@ -1,15 +1,21 @@
 import React from "react";
-import type { Room } from "../types/Room";
-import { RoomImageSlider } from "./RoomImageSlider";
+import type { Room } from "../../types/Room";
+import { RoomImgSlider } from "./RoomImgSlider";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   room: Room;
 }
 
 export const RoomCard: React.FC<Props> = ({ room }) => {
+  const navigate = useNavigate();
+  const handleCheckAvailability = () => {
+    navigate("/search");
+  };
+
   return (
     <article className="flex flex-col lg:flex-row bg-white rounded-[2.5rem] shadow-2xl overflow-hidden min-h-137.5 hover:scale-[1.01] transition-transform duration-300">
-      <RoomImageSlider images={room.imageUrls} />
+      <RoomImgSlider images={room.imageUrls} />
       <div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
         <header className="mb-6">
           <div className="flex flex-col gap-2 mb-4">
@@ -33,7 +39,7 @@ export const RoomCard: React.FC<Props> = ({ room }) => {
 
         <div className="flex items-baseline gap-2 mb-8 border-b border-stone-100 pb-6">
           <span className="text-4xl font-light text-stone-900">
-            ${room.pricePerNight}
+            {room.pricePerNight}€
           </span>
           <span className="text-[12px] text-stone-400 uppercase tracking-widest font-bold">
             Per Night
@@ -66,7 +72,10 @@ export const RoomCard: React.FC<Props> = ({ room }) => {
           ))}
         </div>
 
-        <button className="w-full bg-stone-900 hover:bg-amber-800 text-white font-extrabold py-5 rounded-2xl transition-all uppercase tracking-[0.2em] text-xs shadow-2xl active:scale-95">
+        <button
+          onClick={handleCheckAvailability}
+          className="w-full bg-stone-900 hover:bg-amber-800 text-white font-extrabold py-5 rounded-2xl transition-all uppercase tracking-[0.2em] text-xs shadow-2xl active:scale-95"
+        >
           Check Availability
         </button>
       </div>

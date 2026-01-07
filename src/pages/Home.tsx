@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as ScrollLink } from "react-scroll";
-import { RoomList } from "../components/RoomList";
+import { RoomList } from "../components/roomHome/RoomList";
 
 const Home: React.FC = () => {
   return (

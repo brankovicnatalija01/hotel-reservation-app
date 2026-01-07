@@ -4,7 +4,7 @@ interface Props {
   images: string[];
 }
 
-export const RoomImageSlider: React.FC<Props> = ({ images }) => {
+export const RoomImgSlider: React.FC<Props> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 

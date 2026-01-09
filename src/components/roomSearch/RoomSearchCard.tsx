@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Users, HelpCircle } from "lucide-react";
 import type { Room } from "../../types/Room";
 import type { Amenity } from "../../types/Amenity";
+import LoginModal from "../modals/LoginModal";
+import BookingModal from "../modals/BookingModal";
+import { showToast } from "../../utils/showToast";
 
 interface RoomCardProps {
   room: Room;
@@ -9,9 +12,22 @@ interface RoomCardProps {
 }
 
 const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
-  // Get the first image from the list or use a high-end placeholder
   const mainImage =
     room.imageUrls && room.imageUrls.length > 0 ? room.imageUrls[0] : "";
+
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const handleBookClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      showToast.info("Please login to book a room.");
+      setIsLoginOpen(true);
+    } else {
+      setIsBookingOpen(true);
+    }
+  };
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-amber-100/50 hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-500">
@@ -87,9 +103,29 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
             </span>
           </div>
 
-          <button className="bg-slate-900 text-amber-50 px-6 py-2.5 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-amber-600 hover:text-white transition-all duration-300 shadow-lg shadow-slate-200">
+          <button
+            onClick={handleBookClick}
+            className="bg-slate-900 text-amber-50 px-6 py-2.5 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-amber-600 hover:text-white transition-all duration-300 shadow-lg shadow-slate-200"
+          >
             Book Now
           </button>
+
+          <LoginModal
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+            onSwitchToRegister={() => {
+              setIsLoginOpen(false);
+            }}
+          />
+          <BookingModal
+            isOpen={isBookingOpen}
+            onClose={() => setIsBookingOpen(false)}
+            room={{
+              id: room.id,
+              name: room.roomTypeDescription,
+              pricePerNight: room.pricePerNight,
+            }}
+          />
         </div>
       </div>
     </div>

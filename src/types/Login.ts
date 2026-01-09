@@ -3,8 +3,9 @@ export interface LoginCredentials {
   password?: string;
 }
 
-export interface RegisterData {
-  fullName: string;
+export interface LoginResponse {
+  token: string;
   email: string;
-  password?: string;
+  role: "ROLE_ADMIN" | "ROLE_USER";
+  id: number;
 }

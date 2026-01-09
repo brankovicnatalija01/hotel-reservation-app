@@ -31,6 +31,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       localStorage.setItem("token", data.token);
       localStorage.setItem("userEmail", data.email);
       localStorage.setItem("userRole", data.role);
+      localStorage.setItem("userId", data.id.toString());
       onClose();
       window.location.reload();
     } catch (err: unknown) {
@@ -52,9 +53,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
         onClick={onClose}
       />
 
-      {/* Modal Container - Povećano na max-w-xl i p-14 */}
+      {/* Modal Container */}
       <div className="relative bg-white w-full max-w-xl rounded-[3rem] shadow-2xl p-14 animate-in fade-in zoom-in duration-300">
-        {/* Close Button - Veća ikonica i pozicija */}
+        {/* Close Button -*/}
         <button
           onClick={onClose}
           className="absolute top-10 right-10 text-slate-400 hover:text-amber-600 transition-colors focus:outline-none"
@@ -62,7 +63,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <X size={28} />
         </button>
 
-        {/* Header - Povećan font naslova */}
+        {/* Header */}
         <div className="mb-10">
           <h2 className="text-4xl font-serif italic text-slate-800 mb-3 tracking-tight">
             Welcome Back

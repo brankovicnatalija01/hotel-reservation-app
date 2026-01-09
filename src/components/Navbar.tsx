@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { User, LogIn, UserPlus, TreePine, LogOut } from "lucide-react";
 import LoginModal from "../components/modals/LoginModal";
-import RegisterModal from "../components/modals/RegisterModal"; // Import novog modala
+import RegisterModal from "../components/modals/RegisterModal";
 
 const Navbar: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false); // Stanje za registraciju
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
-  // Provera statusa ulogovanosti
+  // Check if user is logged in
   const isLoggedIn = !!localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
 

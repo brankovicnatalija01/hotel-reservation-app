@@ -1,5 +1,5 @@
 import React from "react";
-import type { Room } from "../../types/Room";
+import type { Room } from "../../types/room";
 import { RoomImgSlider } from "./RoomImgSlider";
 import { useNavigate } from "react-router-dom";
 

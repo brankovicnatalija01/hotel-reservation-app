@@ -8,8 +8,8 @@ import RoomSearchCard from "../roomSearch/RoomSearchCard";
 import FilterSidebar from "./FilterSidebar";
 
 // Types
-import type { Room } from "../../types/Room";
-import type { RoomSearchRequest } from "../../types/RoomSearchRequest";
+import type { Room } from "../../types/room";
+import type { RoomSearchRequest } from "../../types/room";
 
 const RoomSearch = () => {
   const [rooms, setRooms] = useState<Room[]>([]);

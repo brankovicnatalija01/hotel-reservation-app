@@ -1,19 +1,50 @@
-import React, { useState } from "react";
-import { User, LogIn, UserPlus, TreePine, LogOut } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  User,
+  LogIn,
+  UserPlus,
+  TreePine,
+  LogOut,
+  CalendarDays,
+} from "lucide-react";
 import LoginModal from "../components/modals/LoginModal";
 import RegisterModal from "../components/modals/RegisterModal";
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Check if user is logged in
+  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const isLoggedIn = !!localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
 
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const openRegisterAndCloseLogin = () => {
+    setIsLoginOpen(false);
+    setTimeout(() => {
+      setIsRegisterOpen(true);
+    }, 100);
   };
 
   return (
@@ -23,7 +54,7 @@ const Navbar: React.FC = () => {
           {/* Logo Section */}
           <div
             className="flex items-center gap-2 cursor-pointer"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => navigate("/")}
           >
             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-amber-900/10">
               <span className="text-amber-500 font-serif text-xl font-bold italic">
@@ -38,7 +69,11 @@ const Navbar: React.FC = () => {
           {/* Navigation Links & Auth */}
           <div className="flex items-center gap-8">
             {/* Auth Tabs */}
-            <div className="flex items-center gap-8 border-r border-amber-100 pr-8">
+            <div
+              className={`flex items-center gap-8 ${
+                isLoggedIn ? "border-r border-amber-100 pr-8" : ""
+              }`}
+            >
               {!isLoggedIn ? (
                 <>
                   <button
@@ -49,7 +84,7 @@ const Navbar: React.FC = () => {
                     Login
                   </button>
                   <button
-                    onClick={() => setIsRegisterOpen(true)} // Otvaranje Register modala
+                    onClick={() => setIsRegisterOpen(true)}
                     className="flex items-center gap-2 text-[13px] uppercase tracking-[0.2em] font-semibold text-slate-500 hover:text-amber-600 transition-colors duration-300"
                   >
                     <UserPlus size={18} />
@@ -72,32 +107,67 @@ const Navbar: React.FC = () => {
               )}
             </div>
 
-            {/* Profile Icon / Account Area */}
-            <button className="relative group p-2 rounded-full border border-amber-200 hover:border-amber-500 transition-all duration-300">
-              <User
-                size={20}
-                className="text-slate-700 group-hover:text-amber-600 transition-colors"
-              />
+            {/* Profile Dropdown - only if the user is logged in*/}
+            {isLoggedIn && (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className={`relative p-2 rounded-full border transition-all duration-300 ${
+                    isDropdownOpen
+                      ? "border-amber-500 bg-amber-50 shadow-md"
+                      : "border-amber-200 hover:border-amber-500"
+                  }`}
+                >
+                  <User
+                    size={20}
+                    className={
+                      isDropdownOpen ? "text-amber-600" : "text-slate-700"
+                    }
+                  />
+                  {/* Login indicator */}
+                  <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-amber-500 border-2 border-white rounded-full"></span>
+                </button>
 
-              {isLoggedIn && (
-                <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-amber-500 border-2 border-white rounded-full"></span>
-              )}
-            </button>
+                {/* Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-3 w-56 bg-white border border-amber-100 rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-200 z-60">
+                    <div className="px-4 py-2 border-b border-slate-50 mb-1">
+                      <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                        Account
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        navigate("/my-reservations");
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-700 transition-colors"
+                    >
+                      <CalendarDays size={18} className="text-amber-600" />
+                      <span className="font-medium">My Reservations</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
 
-      {/* Login Modal Component */}
       <LoginModal
         isOpen={isLoginOpen}
         onClose={() => setIsLoginOpen(false)}
-        onSwitchToRegister={() => setIsRegisterOpen(true)}
+        onSwitchToRegister={openRegisterAndCloseLogin} // Prosleđuješ funkciju
       />
 
-      {/* Register Modal Component */}
       <RegisterModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}
+        onSwitchToLogin={() => {
+          setIsRegisterOpen(false);
+          setIsLoginOpen(true);
+        }}
       />
     </>
   );

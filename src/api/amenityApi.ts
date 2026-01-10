@@ -1,4 +1,4 @@
-import type { Amenity } from "../types/Amenity";
+import type { Amenity } from "../types/amenity";
 
 const BASE_URL = "http://localhost:8080/api";
 

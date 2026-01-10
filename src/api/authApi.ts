@@ -1,4 +1,4 @@
-import type { LoginCredentials, LoginResponse } from "../types/Login";
+import type { LoginCredentials, LoginResponse } from "../types/login";
 import type { RegisterData, RegisterResponse } from "../types/Register";
 
 const BASE_URL = "http://localhost:8080/api";

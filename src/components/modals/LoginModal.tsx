@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Mail, Lock, X, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { loginUser } from "../../api/authApi";
-import type { LoginResponse } from "../../types/Login";
+import type { LoginResponse } from "../../types/login";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -126,8 +126,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
               />
             </div>
           </div>
-
-          {/* Submit Button - Masivnije dugme sa većim fontom i gap-om */}
           <button
             type="submit"
             disabled={loading}

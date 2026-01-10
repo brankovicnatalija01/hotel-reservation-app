@@ -1,6 +1,7 @@
 import React from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { RoomList } from "../components/roomHome/RoomList";
+import { ReviewSection } from "../components/reviews/ReviewSection";
 
 const Home: React.FC = () => {
   return (
@@ -23,12 +24,12 @@ const Home: React.FC = () => {
             wilderness.
           </p>
 
-          {/* MODERAN SCROLL LINK */}
+          {/* SCROLL LINK */}
           <ScrollLink
-            to="rooms-section" // Mora da se poklapa sa ID-jem ispod
+            to="rooms-section"
             smooth={true}
-            duration={800} // Brzina u milisekundama (800ms = 0.8s)
-            offset={-50} // Ako imaš fiksni header, ovim ga zaobilaziš
+            duration={800}
+            offset={-50}
             className="cursor-pointer bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-xl"
           >
             Explore Our Rooms
@@ -43,11 +44,40 @@ const Home: React.FC = () => {
             Our Accommodations
           </h2>
           <div className="w-24 h-1 bg-amber-400 mx-auto mb-8 rounded-full "></div>
-          <p className="text-xl md:text-2xl text-stone-600 font-light italic">
+          <p className="text-xl md:text-2xl text-stone-600 font-light italic mb-8">
             "Handpicked luxury for your perfect stay"
           </p>
+
+          <ScrollLink
+            to="reviews-section"
+            smooth={true}
+            duration={800}
+            offset={-50}
+            className="cursor-pointer bg-amber-700 hover:bg-amber-800 text-white font-semibold py-4 px-7 rounded-lg transition duration-300 shadow-xl mt-6"
+          >
+            See Our Guest Stories
+          </ScrollLink>
         </div>
         <RoomList />
+      </div>
+
+      {/* SECTION 3: REVIEWS */}
+      <div
+        id="reviews-section"
+        className="bg-stone-100 py-24 px-4 overflow-hidden border-t border-amber-900/20"
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif text-amber-900 mb-4">
+              Guest Stories
+            </h2>
+            <p className="text-amber-700 font-serif italic text-lg">
+              Memories shared by our beloved guests
+            </p>
+          </div>
+
+          <ReviewSection />
+        </div>
       </div>
     </div>
   );

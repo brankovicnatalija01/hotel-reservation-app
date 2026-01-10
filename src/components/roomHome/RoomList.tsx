@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import type { Room } from "../../types/Room";
+import type { Room } from "../../types/room";
 import { fetchRooms } from "../../api/roomApi";
 import { RoomCard } from "../roomHome/RoomCard";
 

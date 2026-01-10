@@ -13,9 +13,14 @@ import { registerUser } from "../../api/authApi";
 interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSwitchToLogin: () => void;
 }
 
-const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
+const RegisterModal: React.FC<RegisterModalProps> = ({
+  isOpen,
+  onClose,
+  onSwitchToLogin,
+}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -121,7 +126,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
                   required
                   onChange={handleChange}
                   className="w-full bg-slate-50 border border-amber-100 rounded-[1.2rem] py-4 px-6 text-base focus:border-amber-500 outline-none transition-all"
-                  placeholder="Markovic"
+                  placeholder="Brankovic"
                 />
               </div>
             </div>
@@ -198,6 +203,20 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
             </button>
           </form>
         )}
+        {!success && (
+          <div className="mt-8 text-center">
+            <p className="text-sm text-slate-400 font-medium">
+              Already have an account?{" "}
+              <button
+                onClick={onSwitchToLogin}
+                className="text-amber-600 font-bold hover:underline ml-1 transition-colors"
+              >
+                Login here
+              </button>
+            </p>
+          </div>
+        )}
+        {/* ---------------------------- */}
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Users, HelpCircle } from "lucide-react";
-import type { Room } from "../../types/Room";
-import type { Amenity } from "../../types/Amenity";
+import type { Room } from "../../types/room";
+import type { Amenity } from "../../types/amenity";
 import LoginModal from "../modals/LoginModal";
+import RegisterModal from "../modals/RegisterModal";
 import BookingModal from "../modals/BookingModal";
 import { showToast } from "../../utils/showToast";
 
@@ -17,6 +18,17 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+
+  const openRegister = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(true);
+  };
+
+  const openLogin = () => {
+    setIsRegisterOpen(false);
+    setIsLoginOpen(true);
+  };
 
   const handleBookClick = () => {
     const token = localStorage.getItem("token");
@@ -113,9 +125,14 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
           <LoginModal
             isOpen={isLoginOpen}
             onClose={() => setIsLoginOpen(false)}
-            onSwitchToRegister={() => {
-              setIsLoginOpen(false);
-            }}
+            onSwitchToRegister={openRegister}
+          />
+
+          {/* REGISTER MODAL */}
+          <RegisterModal
+            isOpen={isRegisterOpen}
+            onClose={() => setIsRegisterOpen(false)}
+            onSwitchToLogin={openLogin}
           />
           <BookingModal
             isOpen={isBookingOpen}

@@ -1,5 +1,4 @@
-import type { Room } from "../types/Room";
-import type { RoomSearchRequest } from "../types/RoomSearchRequest";
+import type { Room, RoomSearchRequest } from "../types/room";
 
 const BASE_URL = "http://localhost:8080/api";
 

@@ -20,6 +20,8 @@ public class ReservationResponseDTO implements Serializable {
     private BigDecimal totalPrice;
     private Long roomId;
     private String roomNumber;
+    private String roomName;
+    private String roomDescription;
     private Long userId;
     private String userFirstName;
     private String userLastName;

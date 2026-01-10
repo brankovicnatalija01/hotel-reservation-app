@@ -75,18 +75,18 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/rooms/search").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/review", "/api/review/room/**").permitAll()
 
+                                // --- USER and ADMIN  ---
+                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/review").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/review/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/review/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/review/user/**", "/api/reservations/user/**").hasAnyRole("USER", "ADMIN")
+
                                 // --- ADMIN ONLY ---
                                 .requestMatchers("/api/reservations/search").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
-
-                                // --- USER and ADMIN  ---
-                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/review", "/cd Dapi/reservations/user/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/review/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/review/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/review/user/**").hasAnyRole("USER", "ADMIN")
 
                                 .anyRequest().authenticated()
                 );

@@ -36,6 +36,8 @@ public class ReservationMapper implements Mapper<ReservationRequestDTO, Reservat
         dto.setTotalPrice(reservation.getTotalPrice());
         dto.setRoomId(reservation.getRoom().getId());
         dto.setRoomNumber(reservation.getRoom().getRoomNumber());
+        dto.setRoomName(reservation.getRoom().getRoomType().getName());
+        dto.setRoomDescription(reservation.getRoom().getRoomType().getDescription());
         dto.setUserId(reservation.getUser().getId());
         dto.setUserFirstName(reservation.getUser().getFirstName());
         dto.setUserLastName(reservation.getUser().getLastName());

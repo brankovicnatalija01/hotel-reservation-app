@@ -2,6 +2,7 @@ import { apiRequest } from "./apiClient";
 import type {
   ReservationRequest,
   ReservationResponse,
+  SearchFilters,
 } from "../types/reservation";
 
 const PATH = "/reservations";
@@ -19,6 +20,12 @@ export const cancelReservation = (id: number) =>
   apiRequest<void>(`${PATH}/cancel/${id}`, { method: "PUT" });
 
 export const searchReservations = (criteria: { status: string }) =>
+  apiRequest<ReservationResponse[]>(`${PATH}/search`, {
+    method: "POST",
+    body: JSON.stringify(criteria),
+  });
+
+export const searchReservationAllFilters = (criteria: Partial<SearchFilters>) =>
   apiRequest<ReservationResponse[]>(`${PATH}/search`, {
     method: "POST",
     body: JSON.stringify(criteria),

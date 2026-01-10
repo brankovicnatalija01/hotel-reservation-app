@@ -36,3 +36,11 @@ export const STATUS_PRIORITY: Record<string, number> = {
   REJECTED: 5,
   EXPIRED: 6,
 };
+
+export interface SearchFilters {
+  checkInDate?: string;
+  checkOutDate?: string;
+  status?: string;
+  roomNumber?: string;
+  fullName?: string;
+}

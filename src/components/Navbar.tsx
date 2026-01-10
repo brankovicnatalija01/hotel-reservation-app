@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import LoginModal from "../components/modals/LoginModal";
 import RegisterModal from "../components/modals/RegisterModal";
-import AdminMenu from "../components/AdminMenu";
+import AdminMenu from "../components/adminPanel/AdminMenu";
 import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import LoginModal from "../components/modals/LoginModal";
 import RegisterModal from "../components/modals/RegisterModal";
+import AdminMenu from "../components/AdminMenu";
 import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
@@ -22,6 +23,7 @@ const Navbar: React.FC = () => {
 
   const isLoggedIn = !!localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
+  const userRole = localStorage.getItem("userRole");
 
   const handleLogout = () => {
     localStorage.clear();
@@ -163,6 +165,13 @@ const Navbar: React.FC = () => {
                     </button>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Admin section */}
+            {isLoggedIn && userRole === "ROLE_ADMIN" && (
+              <div className="border-r border-amber-100 pr-6 mr-2">
+                <AdminMenu />
               </div>
             )}
           </div>

@@ -33,5 +33,6 @@ export const STATUS_PRIORITY: Record<string, number> = {
   PENDING: 2,
   COMPLETED: 3,
   CANCELLED: 4,
-  EXPIRED: 5,
+  REJECTED: 5,
+  EXPIRED: 6,
 };

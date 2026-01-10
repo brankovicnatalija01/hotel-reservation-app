@@ -1,42 +1,21 @@
+import { apiRequest } from "./apiClient";
 import type { LoginCredentials, LoginResponse } from "../types/login";
-import type { RegisterData, RegisterResponse } from "../types/Register";
+import type { RegisterData, RegisterResponse } from "../types/register";
 
-const BASE_URL = "http://localhost:8080/api";
+const PATH = "/auth";
 
-export const loginUser = async (
+export const loginUser = (
   credentials: LoginCredentials
-): Promise<LoginResponse> => {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
+): Promise<LoginResponse> =>
+  apiRequest(`${PATH}/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(credentials),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Invalid credentials.");
-  }
-
-  return response.json();
-};
-
-export const registerUser = async (
+export const registerUser = (
   userData: RegisterData
-): Promise<RegisterResponse> => {
-  const response = await fetch(`${BASE_URL}/auth/register`, {
+): Promise<RegisterResponse> =>
+  apiRequest(`${PATH}/register`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(userData),
   });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Registration failed.");
-  }
-
-  return response.json();
-};

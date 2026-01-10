@@ -15,13 +15,18 @@ export const ReservationCard: React.FC<Props> = ({
   const isCompleted = res.status === "COMPLETED";
   const isCancelled = res.status === "CANCELLED";
   const isExpired = res.status === "EXPIRED";
+  const isRejected = res.status === "REJECTED";
 
-  const isInactive = isCompleted || isCancelled || isExpired;
+  const isInactive = isCompleted || isCancelled || isExpired || isRejected;
 
   return (
     <div
       className={`bg-white rounded-4xl shadow-sm border border-amber-100/30 overflow-hidden flex flex-col lg:flex-row transition-all duration-300 ${
-        isInactive ? "opacity-60" : "hover:border-amber-200"
+        isCompleted
+          ? "opacity-80"
+          : isCancelled || isExpired || isRejected
+          ? "opacity-60"
+          : "hover:border-amber-200"
       }`}
     >
       <div className="p-8 flex-1">
@@ -29,7 +34,9 @@ export const ReservationCard: React.FC<Props> = ({
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               {isCompleted && <History size={16} className="text-slate-400" />}
-              {isCancelled && <XCircle size={16} className="text-red-500" />}
+              {(isCancelled || isRejected) && (
+                <XCircle size={16} className="text-red-500" />
+              )}
               {isExpired && <XCircle size={16} className="text-slate-400" />}
               {res.status === "CONFIRMED" && (
                 <CheckCircle2 size={16} className="text-emerald-500" />
@@ -42,7 +49,7 @@ export const ReservationCard: React.FC<Props> = ({
                 className={`text-[14px] font-bold uppercase tracking-[0.15em] ${
                   isCompleted || isExpired
                     ? "text-slate-400"
-                    : isCancelled
+                    : isCancelled || isRejected
                     ? "text-red-600"
                     : res.status === "CONFIRMED"
                     ? "text-emerald-600"
@@ -115,6 +122,12 @@ export const ReservationCard: React.FC<Props> = ({
           {isCancelled && (
             <span className="text-[14px] text-red-500 uppercase tracking-widest font-bold">
               Cancelled
+            </span>
+          )}
+
+          {isRejected && (
+            <span className="text-[14px] text-red-600 uppercase tracking-widest font-bold">
+              Rejected
             </span>
           )}
 

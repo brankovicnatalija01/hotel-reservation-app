@@ -1,18 +1,11 @@
+import { apiRequest } from "./apiClient";
 import type { Amenity } from "../types/amenity";
 
-const BASE_URL = "http://localhost:8080/api";
+const PATH = "/amenities";
 
 export const fetchAmenities = async (): Promise<string[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/amenities`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: Amenity[] = await response.json();
-
-    // Transform the array of objects [{name: "WiFi"}] into an array of strings ["WiFi"]
+    const data = await apiRequest<Amenity[]>(PATH);
     return data.map((amenity) => amenity.name);
   } catch (error) {
     console.error("Could not fetch amenities:", error);

@@ -1,70 +1,31 @@
+import { apiRequest } from "./apiClient";
 import type {
   ReservationRequest,
   ReservationResponse,
 } from "../types/reservation";
 
-export const createReservation = async (data: ReservationRequest) => {
-  const token = localStorage.getItem("token");
-  const response = await fetch("http://localhost:8080/api/reservations", {
+const PATH = "/reservations";
+
+export const createReservation = (data: ReservationRequest) =>
+  apiRequest<ReservationResponse>(PATH, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to create reservation");
-  }
+export const getUserReservations = (userId: number) =>
+  apiRequest<ReservationResponse[]>(`${PATH}/user/${userId}`);
 
-  return response.json();
-};
+export const cancelReservation = (id: number) =>
+  apiRequest<void>(`${PATH}/cancel/${id}`, { method: "PUT" });
 
-export const getUserReservations = async (
-  userId: number
-): Promise<ReservationResponse[]> => {
-  const token = localStorage.getItem("token");
-  console.log("User ID:", userId);
+export const searchReservations = (criteria: { status: string }) =>
+  apiRequest<ReservationResponse[]>(`${PATH}/search`, {
+    method: "POST",
+    body: JSON.stringify(criteria),
+  });
 
-  if (!token) throw new Error("No token found. Please login again.");
+export const approveReservation = (id: number) =>
+  apiRequest<void>(`${PATH}/approve/${id}`, { method: "PUT" });
 
-  const response = await fetch(
-    `http://localhost:8080/api/reservations/user/${userId}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to fetch reservations");
-  }
-
-  return response.json();
-};
-
-export const cancelReservation = async (
-  reservationId: number
-): Promise<void> => {
-  const token = localStorage.getItem("token");
-  const response = await fetch(
-    `http://localhost:8080/api/reservations/cancel/${reservationId}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to cancel reservation");
-  }
-};
+export const rejectReservation = (id: number) =>
+  apiRequest<void>(`${PATH}/reject/${id}`, { method: "PUT" });

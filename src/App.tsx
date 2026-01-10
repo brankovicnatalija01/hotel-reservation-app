@@ -4,6 +4,7 @@ import SearchPage from "./pages/SearchPage";
 import MyReservations from "./pages/MyReservations";
 import MyReviews from "./pages/MyReviews";
 import { Toaster } from "react-hot-toast";
+import ApproveBookings from "./pages/adminPages/ApproveBookings";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/my-reservations" element={<MyReservations />} />
           <Route path="/my-reviews" element={<MyReviews />} />
+          <Route path="/admin/approve" element={<ApproveBookings />} />
 
           {/* Wrong URL*/}
           <Route

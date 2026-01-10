@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS reservations (
 -- 9. Reviews
  CREATE TABLE IF NOT EXISTS reviews (
                                         id SERIAL PRIMARY KEY,
-                                        rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+                                        rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 10),
                                         comment TEXT,
                                         reservation_id INTEGER UNIQUE REFERENCES reservations(id) ON DELETE CASCADE
  );

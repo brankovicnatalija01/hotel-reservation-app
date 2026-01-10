@@ -73,13 +73,14 @@ public class SecurityConfig {
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/rooms", "/api/rooms/filter/**", "/api/amenities").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/rooms/search").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/review", "/api/review/room/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/reviews", "/api/reviews/room/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/room-types").permitAll()
 
                                 // --- USER and ADMIN  ---
-                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/review").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/review/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/review/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/review/user/**", "/api/reservations/user/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/reviews").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/reviews/user/**", "/api/reservations/user/**").hasAnyRole("USER", "ADMIN")
 
                                 // --- ADMIN ONLY ---
                                 .requestMatchers("/api/reservations/search").hasRole("ADMIN")

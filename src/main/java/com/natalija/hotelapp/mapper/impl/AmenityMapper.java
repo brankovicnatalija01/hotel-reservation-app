@@ -16,6 +16,7 @@ public class AmenityMapper implements Mapper<AmenityRequestDTO, AmenityResponseD
     @Override
     public AmenityResponseDTO toDto(Amenity amenity) {
         AmenityResponseDTO dto = new AmenityResponseDTO();
+        dto.setId(amenity.getId());
         dto.setName(amenity.getName());
         return dto;
     }

@@ -1,6 +1,7 @@
-package com.natalija.hotelapp.dto.amenity;
+package com.natalija.hotelapp.dto.roomType;
 
 import lombok.*;
+
 import java.io.Serializable;
 
 @Getter
@@ -9,7 +10,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class AmenityResponseDTO implements Serializable {
+public class RoomTypeResponseDTO implements Serializable {
     private Long id;
     private String name;
+    private int capacity;
+    private String description;
 }

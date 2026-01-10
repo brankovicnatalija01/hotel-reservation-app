@@ -28,6 +28,8 @@ public class ReviewMapper implements Mapper<ReviewRequestDTO, ReviewResponseDTO,
         dto.setUserLastName(review.getReservation().getUser().getLastName());
         dto.setRoomId(review.getReservation().getRoom().getId());
         dto.setRoomName(review.getReservation().getRoom().getRoomNumber());
+        dto.setRoomType(review.getReservation().getRoom().getRoomType().getName());
+        dto.setRoomTypeDescription(review.getReservation().getRoom().getRoomType().getDescription());
         return dto;
     }
 }

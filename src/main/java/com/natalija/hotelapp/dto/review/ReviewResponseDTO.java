@@ -20,4 +20,6 @@ public class ReviewResponseDTO implements Serializable {
     private String userLastName;
     private Long roomId;
     private String roomName;
+    private String roomType;
+    private String roomTypeDescription;
 }

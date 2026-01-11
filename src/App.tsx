@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import SearchPage from "./pages/SearchPage";
 import MyReservations from "./pages/MyReservations";
 import MyReviews from "./pages/MyReviews";
+import ManageRooms from "./pages/adminPages/ManageRooms";
 import { Toaster } from "react-hot-toast";
 import ApproveBookings from "./pages/adminPages/ApproveBookings";
 import AdminCalendar from "./pages/adminPages/AdminCalendar";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/my-reviews" element={<MyReviews />} />
           <Route path="/admin/approve" element={<ApproveBookings />} />
           <Route path="/admin/calendar" element={<AdminCalendar />} />
+          <Route path="/admin/rooms" element={<ManageRooms />} />
 
           {/* Wrong URL*/}
           <Route

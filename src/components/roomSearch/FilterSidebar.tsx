@@ -1,13 +1,14 @@
 import React from "react";
 import DateRangePicker from "./DateRangePicker";
-import { ListFilterPlus, Users, Coins } from "lucide-react"; // Zamenio Euro sa Coins za diskretniji izgled
+import { ListFilterPlus, Users, Coins } from "lucide-react";
 import AmenityFilter from "./AmenityFilter";
-import type { RoomSearchRequest } from "../../types/RoomSearchRequest";
+import type { RoomSearchRequest } from "../../types/room";
+import type { Amenity } from "../../types/amenity";
 
 interface FilterSidebarProps {
   filters: RoomSearchRequest;
   setFilters: React.Dispatch<React.SetStateAction<RoomSearchRequest>>;
-  allAmenities: string[];
+  allAmenities: Amenity[];
   onAmenityToggle: (amenity: string) => void;
   iconMap: Record<string, React.ElementType>;
 }

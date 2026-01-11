@@ -1,5 +1,10 @@
 import { apiRequest } from "./apiClient";
-import type { Room, RoomSearchRequest } from "../types/room";
+import type {
+  Room,
+  RoomSearchRequest,
+  CreateRoomRequest,
+  UpdateRoomRequest,
+} from "../types/room";
 
 const PATH = "/rooms";
 
@@ -16,3 +21,17 @@ export const searchRooms = async (
     body: JSON.stringify(cleanFilters),
   });
 };
+
+export const createRoom = (data: CreateRoomRequest) =>
+  apiRequest<void>("/rooms", { method: "POST", body: JSON.stringify(data) });
+
+export const updateRoom = (id: number, data: UpdateRoomRequest) =>
+  apiRequest<void>(`/rooms/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+export const deleteRoom = (id: number): Promise<void> =>
+  apiRequest(`${PATH}/${id}`, {
+    method: "DELETE",
+  });

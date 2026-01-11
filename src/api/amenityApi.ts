@@ -3,10 +3,10 @@ import type { Amenity } from "../types/amenity";
 
 const PATH = "/amenities";
 
-export const fetchAmenities = async (): Promise<string[]> => {
+export const getAmenities = async (): Promise<Amenity[]> => {
   try {
     const data = await apiRequest<Amenity[]>(PATH);
-    return data.map((amenity) => amenity.name);
+    return data; // Vraćamo ceo objekat [{id: 1, name: 'WiFi'}, ...]
   } catch (error) {
     console.error("Could not fetch amenities:", error);
     return [];

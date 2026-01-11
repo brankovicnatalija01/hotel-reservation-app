@@ -13,8 +13,11 @@ interface RoomCardProps {
 }
 
 const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
-  const mainImage =
+  console.log(`Soba ${room.roomNumber} slike:`, room.imageUrls);
+
+  const rawImage =
     room.imageUrls && room.imageUrls.length > 0 ? room.imageUrls[0] : "";
+  const mainImage = rawImage.trim();
 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -43,13 +46,24 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-amber-100/50 hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-500">
-      {/* Room Image Container */}
-      <div className="relative h-64 overflow-hidden">
-        <img
-          src={mainImage}
-          alt={`Room ${room.roomNumber}`}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+      <div className="relative h-64 w-full bg-slate-200">
+        {" "}
+        {mainImage ? (
+          <img
+            src={mainImage}
+            alt={`Room ${room.roomNumber}`}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            onLoad={() => console.log("Slika uspešno učitana:", mainImage)}
+            onError={(e) => {
+              console.error("Browser ne može da učita URL:", mainImage);
+              (e.target as HTMLImageElement).style.border = "5px solid ";
+            }}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-slate-400">
+            No URL found
+          </div>
+        )}
         {/* Luxury Badge for Room Type */}
         <div className="absolute top-4 left-4">
           <span className="bg-white/90 backdrop-blur-md text-amber-800 text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-lg shadow-sm">
@@ -84,7 +98,6 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
           {/* Render ONLY the amenities this specific room has */}
           {room.amenities && room.amenities.length > 0 ? (
             room.amenities.map((amenityName, index) => {
-              // Ensure we handle both string arrays and object arrays
               const name =
                 typeof amenityName === "object"
                   ? (amenityName as Amenity).name
@@ -127,8 +140,6 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
             onClose={() => setIsLoginOpen(false)}
             onSwitchToRegister={openRegister}
           />
-
-          {/* REGISTER MODAL */}
           <RegisterModal
             isOpen={isRegisterOpen}
             onClose={() => setIsRegisterOpen(false)}

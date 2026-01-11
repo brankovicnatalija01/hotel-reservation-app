@@ -1,22 +1,18 @@
 import { useState, useEffect } from "react";
 import { searchRooms } from "../../api/roomApi";
-import { fetchAmenities } from "../../api/amenityApi";
-import { AMENITY_ICONS } from "../../utils/amenityIcons"; // Our new central icon file
-
-// Components
+import { getAmenities } from "../../api/amenityApi";
+import { AMENITY_ICONS } from "../../utils/amenityIcons";
+import type { Amenity } from "../../types/amenity";
 import RoomSearchCard from "../roomSearch/RoomSearchCard";
 import FilterSidebar from "./FilterSidebar";
-
-// Types
 import type { Room } from "../../types/room";
 import type { RoomSearchRequest } from "../../types/room";
 
 const RoomSearch = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(false);
-  const [allAmenities, setAllAmenities] = useState<string[]>([]);
+  const [allAmenities, setAllAmenities] = useState<Amenity[]>([]);
 
-  // Initial state for filters
   const [filters, setFilters] = useState<RoomSearchRequest>({
     capacity: 1,
     minPrice: 0,
@@ -28,15 +24,12 @@ const RoomSearch = () => {
 
   useEffect(() => {
     const loadAmenities = async () => {
-      const names = await fetchAmenities();
-      setAllAmenities(names);
+      const data = await getAmenities();
+      setAllAmenities(data);
     };
     loadAmenities();
   }, []);
 
-  /**
-   * Effect to fetch rooms whenever any filter value changes
-   */
   useEffect(() => {
     const getRooms = async () => {
       setLoading(true);
@@ -53,15 +46,12 @@ const RoomSearch = () => {
     getRooms();
   }, [filters]);
 
-  /**
-   * Handler for toggling amenities in the sidebar
-   */
-  const handleAmenityToggle = (amenity: string) => {
+  const handleAmenityToggle = (amenityName: string) => {
     setFilters((prev) => ({
       ...prev,
-      amenities: prev.amenities?.includes(amenity)
-        ? prev.amenities.filter((a) => a !== amenity)
-        : [...(prev.amenities || []), amenity],
+      amenities: prev.amenities?.includes(amenityName)
+        ? prev.amenities.filter((a) => a !== amenityName)
+        : [...(prev.amenities || []), amenityName],
     }));
   };
 
@@ -83,7 +73,6 @@ const RoomSearch = () => {
             {loading
               ? "Searching for rooms..."
               : `Found: ${rooms.length} rooms`}
-            {/* Thin Solid Amber Line */}
             <div className="h-1.25 w-full bg-linear-to-r from-transparent via-amber-600 mt-1 rounded-full" />
           </h1>
         </div>

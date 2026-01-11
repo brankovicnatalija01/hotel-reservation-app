@@ -1,8 +1,9 @@
 import React from "react";
 import { HelpCircle, Sparkle } from "lucide-react";
+import type { Amenity } from "../../types/amenity";
 
 interface AmenityFilterProps {
-  allAmenities: string[];
+  allAmenities: Amenity[];
   selectedAmenities: string[];
   onToggle: (amenity: string) => void;
   iconMap: Record<string, React.ElementType>;
@@ -24,12 +25,12 @@ const AmenityFilter: React.FC<AmenityFilterProps> = ({
 
       <div className="space-y-1">
         {allAmenities.map((amenity) => {
-          const Icon = iconMap[amenity] || HelpCircle;
-          const isSelected = selectedAmenities.includes(amenity);
+          const Icon = iconMap[amenity.name] || HelpCircle;
+          const isSelected = selectedAmenities.includes(amenity.name);
 
           return (
             <label
-              key={amenity}
+              key={amenity.id}
               className={`
                 flex items-center gap-3 cursor-pointer group 
                 p-2.5 rounded-xl transition-all duration-300
@@ -37,11 +38,10 @@ const AmenityFilter: React.FC<AmenityFilterProps> = ({
               `}
             >
               <div className="relative flex items-center justify-center">
-                {/* Custom Styled Checkbox using Amber theme */}
                 <input
                   type="checkbox"
                   checked={isSelected}
-                  onChange={() => onToggle(amenity)}
+                  onChange={() => onToggle(amenity.name)}
                   className="
                     w-5 h-5 rounded-md border-amber-200 
                     text-amber-600 focus:ring-amber-500/20 
@@ -49,8 +49,6 @@ const AmenityFilter: React.FC<AmenityFilterProps> = ({
                   "
                 />
               </div>
-
-              {/* Dynamic Icon with state-based coloring */}
               <Icon
                 size={18}
                 className={`
@@ -74,7 +72,7 @@ const AmenityFilter: React.FC<AmenityFilterProps> = ({
                 }
               `}
               >
-                {amenity}
+                {amenity.name}
               </span>
             </label>
           );

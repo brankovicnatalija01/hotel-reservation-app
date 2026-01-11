@@ -10,8 +10,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@ToString(exclude = "room")
+@EqualsAndHashCode(exclude = "room")
 public class RoomImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,6 @@ public class RoomImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
-    @JsonIgnore
     private Room room;
 
     @Column(nullable = false)

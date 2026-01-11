@@ -82,31 +82,33 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomResponseDTO createRoom(RoomRequestDTO dto) {
         RoomValidator validator = roomValidatorFactory.createValidator(ValidationType.CREATE);
         validator.validate(dto);
 
         Room room = roomMapper.toEntity(dto);
 
-        room.setProperty(propertyRepository.findById(dto.getPropertyId()).get());
-        room.setRoomType(roomTypeRepository.findById(dto.getRoomTypeId()).get());
+        room.setProperty(propertyRepository.findById(dto.getPropertyId())
+                .orElseThrow(() -> new EntityNotFoundException("Property not found")));
+        room.setRoomType(roomTypeRepository.findById(dto.getRoomTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Room Type not found")));
 
         if (dto.getAmenityIds() != null && !dto.getAmenityIds().isEmpty()) {
             room.setAmenities(new HashSet<>(amenityRepository.findAllById(dto.getAmenityIds())));
         }
 
         if (dto.getImageUrls() != null && !dto.getImageUrls().isEmpty()) {
-            List<RoomImage> images = dto.getImageUrls().stream()
-                    .map(url -> {
-                        RoomImage img = new RoomImage();
-                        img.setUrl(url);
-                        img.setRoom(room);
-                        return img;
-                    }).toList();
-            room.setImages(images);
+            for (String url : dto.getImageUrls()) {
+                RoomImage img = new RoomImage();
+                img.setUrl(url);
+                img.setRoom(room);
+                room.getImages().add(img);
+            }
         }
 
         Room saved = roomRepository.save(room);
+        roomRepository.flush();
 
         return roomMapper.toDto(saved);
     }

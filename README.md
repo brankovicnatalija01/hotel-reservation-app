@@ -67,6 +67,8 @@ The system architecture is built on a relational PostgreSQL database with the fo
 * **Amenities:** `Amenity` & `Room_Amenity` (Many-to-Many mapping for room features).
 * **Business Logic:** `Reservation` (Booking details & status), `Review` (User feedback linked to stays).
 
+<img width="3384" height="1729" alt="Image" src="https://github.com/user-attachments/assets/a0e0ab79-f423-47f2-afbf-eee20f9b1835" />
+
 ---
 
 ## 🚀 Features & Walkthrough

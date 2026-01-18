@@ -6,7 +6,7 @@ const PATH = "/amenities";
 export const getAmenities = async (): Promise<Amenity[]> => {
   try {
     const data = await apiRequest<Amenity[]>(PATH);
-    return data; // Vraćamo ceo objekat [{id: 1, name: 'WiFi'}, ...]
+    return data;
   } catch (error) {
     console.error("Could not fetch amenities:", error);
     return [];

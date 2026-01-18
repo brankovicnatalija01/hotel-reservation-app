@@ -104,8 +104,7 @@ export const RoomModal: React.FC<Props> = ({
       showToast.success(room ? "Room updated" : "Room created");
       onRefresh();
       onClose();
-    } catch (error) {
-      console.error("Greška pri slanju:", error);
+    } catch {
       showToast.error("Request failed");
     } finally {
       setLoading(false);

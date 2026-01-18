@@ -85,7 +85,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
         {/* Login Form */}
         <form className="space-y-8" onSubmit={handleSubmit}>
-          {/* Email Input - Povećan py, pl, text-size i ikonice */}
+          {/* Email Input  */}
           <div className="space-y-3">
             <label className="text-[13px] uppercase tracking-[0.25em] font-bold text-slate-400 ml-2 mb-4">
               Email Address

@@ -13,8 +13,6 @@ interface RoomCardProps {
 }
 
 const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
-  console.log(`Soba ${room.roomNumber} slike:`, room.imageUrls);
-
   const rawImage =
     room.imageUrls && room.imageUrls.length > 0 ? room.imageUrls[0] : "";
   const mainImage = rawImage.trim();
@@ -53,11 +51,6 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
             src={mainImage}
             alt={`Room ${room.roomNumber}`}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            onLoad={() => console.log("Slika uspešno učitana:", mainImage)}
-            onError={(e) => {
-              console.error("Browser ne može da učita URL:", mainImage);
-              (e.target as HTMLImageElement).style.border = "5px solid ";
-            }}
           />
         ) : (
           <div className="flex items-center justify-center h-full text-slate-400">
@@ -85,8 +78,6 @@ const RoomSearchCard: React.FC<RoomCardProps> = ({ room, iconMap }) => {
             {room.description}
           </p>
         )}
-        {/* Divider */}
-
         <div className="h-0.5 w-full round-full  bg-amber-200 opacity-80" />
         {/* Room Details & Amenities */}
         <div className="flex flex-wrap items-center gap-y-3 gap-x-5 text-sm text-slate-500 mb-6 mt-4">

@@ -13,5 +13,5 @@ export interface RegisterResponse {
     email: string;
     phone: string;
     role?: string;
-    message?: string; // U slučaju da backend šalje poruku uspeha
+    message?: string; 
   }

@@ -4,7 +4,7 @@ import type { LucideIcon } from "lucide-react";
 
 interface StatusBadgeProps {
   status: string;
-  variant?: "default" | "minimal"; // Dodajemo opciju za stil
+  variant?: "default" | "minimal"; 
 }
 
 export const StatusBadge = ({

@@ -3,8 +3,11 @@ import {
   Tv,
   Coffee,
   Snowflake,
-  Car,
+  Waves,
+  ShieldCheck,
   Wind,
+  Sun,
+  BellRing,
   HelpCircle,
 } from "lucide-react";
 import React from "react";
@@ -18,13 +21,13 @@ export const AMENITY_ICONS: Record<string, React.ElementType> = {
   TV: Tv,
   "Mini Bar": Coffee,
   AC: Snowflake,
-  "Air Conditioning": Wind,
-  Parking: Car,
+  Jacuzzi: Waves,
+  "Safe Box": ShieldCheck,
+  Hairdryer: Wind,
+  Balcony: Sun,
+  "Room Service": BellRing,
 };
 
-/**
- * Helper function to get an icon by name with a fallback
- */
 export const getAmenityIcon = (name: string) => {
   return AMENITY_ICONS[name] || HelpCircle;
 };

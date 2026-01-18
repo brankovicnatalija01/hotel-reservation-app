@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { getUserReviews, deleteReview, updateReview } from "../api/reviewsApi";
 import type { ReviewResponse } from "../types/review";
 import { Star, MessageSquare, Trash2, Edit3, X, Check } from "lucide-react";
-import DeleteReviewModal from "../components/modals/DeleteReviewModal";
+import DeleteReviewModal from "../components/modals/ConfirmDeleteModal";
 
 const MyReviews: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewResponse[]>([]);
@@ -34,7 +34,6 @@ const MyReviews: React.FC = () => {
         setReviews((prev) =>
           prev.filter((r) => r.reviewId !== reviewIdToDelete)
         );
-        // Resetujemo state nakon brisanja
         setReviewIdToDelete(null);
       } catch {
         alert("Error deleting review");
@@ -62,7 +61,7 @@ const MyReviews: React.FC = () => {
   return (
     <div className="min-h-screen bg-stone-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header stranice */}
+        {/* Header */}
         <div className="flex items-center gap-4 mb-10">
           <div className="p-3 bg-amber-100 rounded-2xl text-amber-700">
             <MessageSquare size={28} />
@@ -84,7 +83,7 @@ const MyReviews: React.FC = () => {
               className="bg-stone-200/50 backdrop-blur-sm p-6 rounded-4xl border border-stone-300/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group transition-all duration-300"
             >
               <div className="flex-1 w-full">
-                {/* Rating i Room Info */}
+                {/* Rating and Room Info */}
                 <div className="flex items-center gap-3 mb-3">
                   <div className="flex gap-0.5">
                     {[...Array(10)].map((_, i) => (
@@ -161,8 +160,6 @@ const MyReviews: React.FC = () => {
                     >
                       <Edit3 size={16} />
                     </button>
-
-                    {/* KLIK OTVARA MODAL */}
                     <button
                       onClick={() => {
                         setReviewIdToDelete(review.reviewId);

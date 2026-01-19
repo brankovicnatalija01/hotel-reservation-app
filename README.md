@@ -1,6 +1,6 @@
 # 🌲 Pine Mountain Lodge - Hotel Reservation System
 
-A full-stack luxury hotel management and reservation platform designed for mountain retreats. This project features a robust **Spring Boot** backend and a dynamic **React** frontend, providing a seamless experience for both guests and administrators.
+A full-stack luxury hotel management and reservation platform designed for mountain retreats. This project features a **Spring Boot** backend and a dynamic **React** frontend, providing a seamless experience for both guests and administrators.
 
 ---
 
@@ -34,7 +34,7 @@ A full-stack luxury hotel management and reservation platform designed for mount
 
 ### 3. Default Credentials
 * **Admin:** `admin@hotel.com` / Password: `admin`
-* **User:** `pera.peric@mail.com` / Password: `pera123`
+* **User:** `pera@mail.com` / Password: `pera123`
 
 ---
 
@@ -81,8 +81,8 @@ Displays the room list and integrated guest reviews.
 
 
 ### Room Selection & Filtering
-The main page allows users to view detailed room descriptions and filter search results by:
-* Available dates
+The main page allows users to view detailed room descriptions and filter available rooms by:
+* Check in and check out dates
 * Capacity
 * Price per night
 * Room amenities

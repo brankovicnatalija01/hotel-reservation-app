@@ -32,11 +32,11 @@ WHERE NOT EXISTS (SELECT 1 FROM properties WHERE name = 'Pine Mountain Lodge');
 -- Pera password: pera123
 ---
 INSERT INTO users (first_name, last_name, email, password, role_id)
-SELECT 'admin', 'aser', 'admin@hotel.com', '$2a$12$8.Un7G989Rl1h7Y66S37uerqPMdfW6m9WzjZpbc89vJnO.p9.S75e', 2
+SELECT 'admin', 'aser', 'admin@hotel.com', '$2a$12$oJbv4606EM9FmCbk9hnEVeqHH75surKbtx02c/uUFg2nS6PvoCiQG', 2
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@hotel.com');
 
 INSERT INTO users (first_name, last_name, email, password, role_id)
-SELECT 'Pera', 'Peric', 'pera@mail.com', '$2a$12$K6S93mOaF7uL60UjJ9oWp.YpX.X7H7N9YJ.uA5G9f8qR4R2O6E0V6', 1
+SELECT 'Pera', 'Peric', 'pera@mail.com', '$2a$12$Wk9f/pLInU/D.HmGOd5szODwfLTlttoidMoWYLvvIVaN/elRTtrXS', 1
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'pera@mail.com');
 
 ---
@@ -89,8 +89,8 @@ WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE user_id = (SELECT id FROM use
 -- Pera Peric Reservations
 INSERT INTO reservations (check_in_date, check_out_date, status, total_price, user_id, room_id)
 SELECT '2026-04-05', '2026-04-10', 'CONFIRMED', 2250.00, (SELECT id FROM users WHERE email = 'pera.peric@mail.com'), 3
-WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE user_id = (SELECT id FROM users WHERE email = 'pera.peric@mail.com') AND check_in_date = '2026-04-05');
+WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE user_id = (SELECT id FROM users WHERE email = 'pera@mail.com') AND check_in_date = '2026-04-05');
 
 INSERT INTO reservations (check_in_date, check_out_date, status, total_price, user_id, room_id)
 SELECT '2026-06-15', '2026-06-18', 'PENDING', 840.00, (SELECT id FROM users WHERE email = 'pera.peric@mail.com'), 2
-WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE user_id = (SELECT id FROM users WHERE email = 'pera.peric@mail.com') AND check_in_date = '2026-06-15');
+WHERE NOT EXISTS (SELECT 1 FROM reservations WHERE user_id = (SELECT id FROM users WHERE email = 'pera@mail.com') AND check_in_date = '2026-06-15');

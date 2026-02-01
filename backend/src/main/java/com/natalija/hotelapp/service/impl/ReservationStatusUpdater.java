@@ -17,8 +17,8 @@ public class ReservationStatusUpdater {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    // Runs everyday at 00:00
-    @Scheduled(cron = "0 0 0 * * *")
+    // Runs every hour
+    @Scheduled(cron = "0 0 * * * *")
     @Transactional
     public void updateExpiredReservations() {
         LocalDate today = LocalDate.now();

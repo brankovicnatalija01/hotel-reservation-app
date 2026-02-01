@@ -95,7 +95,7 @@ export const FilterBar: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Check-out Date - NOVO POLJE */}
+      {/* Check-out Date */}
       <div className="space-y-1">
         <label className="text-[10px] font-bold text-slate-400 uppercase ml-1 tracking-wider">
           Check-out

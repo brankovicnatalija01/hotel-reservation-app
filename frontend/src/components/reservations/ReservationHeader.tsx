@@ -7,7 +7,7 @@ export const ReservationHeader = () => {
     <div className="bg-white border-b border-amber-100/50 py-12 mb-10 shadow-sm">
       <div className="max-w-6xl mx-auto px-6">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/search")}
           className="flex items-center gap-2 text-slate-400 hover:text-amber-600 transition-all mb-6 group"
         >
           <ArrowLeft

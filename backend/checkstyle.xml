@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="severity" value="error"/>
+    <property name="fileExtensions" value="java"/>
+
+    <module name="TreeWalker">
+
+        <!-- No unused imports allowed -->
+        <module name="UnusedImports"/>
+
+        <!-- Class names must start with uppercase e.g. ReservationService -->
+        <module name="TypeName"/>
+
+        <!-- Methods must not exceed 100 lines -->
+        <module name="MethodLength">
+            <property name="max" value="100"/>
+        </module>
+
+        <!-- Methods must not have more than 8 parameters -->
+        <module name="ParameterNumber">
+            <property name="max" value="8"/>
+        </module>
+
+        <!-- No empty catch blocks allowed -->
+        <module name="EmptyCatchBlock"/>
+
+    </module>
+</module>

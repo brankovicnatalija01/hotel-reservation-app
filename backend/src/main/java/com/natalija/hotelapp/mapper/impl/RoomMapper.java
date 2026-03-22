@@ -8,9 +8,6 @@ import com.natalija.hotelapp.entity.RoomImage;
 import com.natalija.hotelapp.mapper.Mapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class RoomMapper implements Mapper<RoomRequestDTO, RoomResponseDTO, Room> {
 

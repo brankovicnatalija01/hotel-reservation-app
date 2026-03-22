@@ -1,6 +1,5 @@
 package com.natalija.hotelapp.specification;
 
-import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import com.natalija.hotelapp.entity.Reservation;
 import jakarta.persistence.criteria.*;

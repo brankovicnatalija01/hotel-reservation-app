@@ -4,7 +4,6 @@ import com.natalija.hotelapp.enums.ValidationType;
 import com.natalija.hotelapp.repository.ReservationRepository;
 import com.natalija.hotelapp.repository.ReviewRepository;
 import com.natalija.hotelapp.validator.ReviewValidator;
-import com.natalija.hotelapp.validator.RoomValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

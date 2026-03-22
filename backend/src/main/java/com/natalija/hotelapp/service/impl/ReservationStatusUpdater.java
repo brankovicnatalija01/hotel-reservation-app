@@ -4,7 +4,6 @@ import com.natalija.hotelapp.entity.Reservation;
 import com.natalija.hotelapp.enums.ReservationStatus;
 import com.natalija.hotelapp.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

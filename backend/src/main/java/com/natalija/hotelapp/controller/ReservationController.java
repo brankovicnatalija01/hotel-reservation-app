@@ -5,7 +5,6 @@ import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import com.natalija.hotelapp.service.ReservationService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

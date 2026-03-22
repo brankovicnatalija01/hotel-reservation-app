@@ -4,7 +4,6 @@ import com.natalija.hotelapp.dto.review.ReviewRequestDTO;
 import com.natalija.hotelapp.dto.review.ReviewResponseDTO;
 import com.natalija.hotelapp.service.ReviewService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,7 +2,6 @@ package com.natalija.hotelapp.config;
 
 import com.natalija.hotelapp.security.AuthTokenFilter;
 import com.natalija.hotelapp.security.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

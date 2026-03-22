@@ -4,7 +4,6 @@ import com.natalija.hotelapp.dto.room.RoomRequestDTO;
 import com.natalija.hotelapp.dto.room.RoomResponseDTO;
 import com.natalija.hotelapp.dto.room.RoomSearchRequestDTO;
 import com.natalija.hotelapp.service.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

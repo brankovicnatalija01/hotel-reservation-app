@@ -44,7 +44,6 @@ class ReservationServiceImplTest {
 
     @Test
     void createReservation_Success() {
-        // GIVEN
         ReservationRequestDTO dto = new ReservationRequestDTO();
         dto.setUserId(1L);
         dto.setRoomId(1L);
@@ -66,10 +65,8 @@ class ReservationServiceImplTest {
         when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
         when(reservationMapper.toDto(any())).thenReturn(new ReservationResponseDTO());
 
-        // WHEN
         reservationService.createReservation(dto);
 
-        // THEN
         verify(reservationValidator).validate(dto);
         //  2 nights * 100 = 200
         assertEquals(new BigDecimal("200"), reservation.getTotalPrice());
@@ -78,98 +75,71 @@ class ReservationServiceImplTest {
 
     @Test
     void createReservation_ShouldThrowException_WhenRoomNotAvailable() {
-        // GIVEN: Prepare a request for a room that we will simulate as unavailable
         ReservationRequestDTO dto = new ReservationRequestDTO();
         dto.setRoomId(1L);
 
-        // Mock the validator to throw a ValidationException when this DTO is processed
         doThrow(new ValidationException("Room is not available for selected dates"))
                 .when(reservationValidator).validate(dto);
 
-        // WHEN & THEN: Assert that the service throws ValidationException when called
         assertThrows(ValidationException.class, () -> reservationService.createReservation(dto));
-
-        // Verify that the process stopped after validation and the repository was never reached
         verify(reservationRepository, never()).save(any());
     }
 
     @Test
     void getReservationById_ThrowsException_WhenNotFound() {
-        // GIVEN
         when(reservationRepository.findById(99L)).thenReturn(Optional.empty());
-
-        // WHEN & THEN
         assertThrows(EntityNotFoundException.class, () -> reservationService.getReservationById(99L));
     }
 
     @Test
     void deleteReservation_Success() {
-        // GIVEN
         Long id = 1L;
         Reservation res = new Reservation();
         res.setId(id);
 
         when(reservationRepository.findById(id)).thenReturn(Optional.of(res));
-
-        // WHEN
         reservationService.deleteReservation(id);
-
-        // THEN
         verify(reservationRepository, times(1)).delete(res);
     }
 
     @Test
     void deleteReservation_ThrowsException_WhenNotFound() {
-        // GIVEN
         when(reservationRepository.findById(1L)).thenReturn(Optional.empty());
-
-        // WHEN & THEN
         assertThrows(EntityNotFoundException.class, () -> reservationService.deleteReservation(1L));
     }
     @Test
     void approveReservation_Success() {
-        // GIVEN
         Reservation res = new Reservation();
         res.setStatus(ReservationStatus.PENDING);
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(res));
         when(reservationRepository.save(any())).thenReturn(res);
 
-        // WHEN
         reservationService.approveReservation(1L);
-
-        // THEN
         assertEquals(ReservationStatus.CONFIRMED, res.getStatus());
     }
 
     @Test
     void approveReservation_ThrowsException_WhenNotPending() {
-        // GIVEN
         Reservation res = new Reservation();
         res.setStatus(ReservationStatus.CANCELLED);
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(res));
 
-        // WHEN & THEN
         assertThrows(ValidationException.class, () -> reservationService.approveReservation(1L));
     }
 
     @Test
     void cancelReservation_Success() {
-        // GIVEN
         Reservation res = new Reservation();
         res.setStatus(ReservationStatus.PENDING);
         when(reservationRepository.findById(1L)).thenReturn(Optional.of(res));
         when(reservationRepository.save(any())).thenReturn(res);
 
-        // WHEN
         reservationService.cancelReservation(1L);
-
-        // THEN
         assertEquals(ReservationStatus.CANCELLED, res.getStatus());
     }
 
     @Test
     void rejectReservation_Success() {
-        // GIVEN
         Reservation res = new Reservation();
         res.setStatus(ReservationStatus.PENDING);
 
@@ -177,33 +147,24 @@ class ReservationServiceImplTest {
         when(reservationRepository.save(any())).thenReturn(res);
         when(reservationMapper.toDto(any())).thenReturn(new ReservationResponseDTO());
 
-        // WHEN
         reservationService.rejectReservation(1L);
 
-        // THEN
         assertEquals(ReservationStatus.REJECTED, res.getStatus());
         verify(reservationRepository).save(res);
     }
 
     @Test
     void search_ShouldReturnList() {
-        // GIVEN: Initialize a search request and a mock reservation list
         ReservationSearchRequestDTO request = new ReservationSearchRequestDTO();
         Reservation res = new Reservation();
         List<Reservation> list = List.of(res);
 
-        // Mock the repository to return the list when any Specification is passed
         when(reservationRepository.findAll(any(Specification.class))).thenReturn(list);
-        // Mock the mapper to convert the entity to a DTO
         when(reservationMapper.toDto(res)).thenReturn(new ReservationResponseDTO());
-
-        // WHEN: Execute the search method
         List<ReservationResponseDTO> results = reservationService.search(request);
 
-        // THEN: Verify the results are not null and contain the expected number of elements
         assertNotNull(results);
         assertEquals(1, results.size());
-        // Ensure the repository's findAll method was actually called with a Specification
         verify(reservationRepository).findAll(any(Specification.class));
     }
 }

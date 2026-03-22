@@ -44,7 +44,7 @@ class ReservationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.reservationId").value(1));
     }
 
     @Test
@@ -55,7 +55,7 @@ class ReservationControllerTest {
 
         mockMvc.perform(get("/api/reservations/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.reservationId").value(1));
     }
 
     @Test

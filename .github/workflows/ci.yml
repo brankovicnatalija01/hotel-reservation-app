@@ -49,10 +49,7 @@ jobs:
       - name: Run Tests with Coverage
         working-directory: backend
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/hotelapp_test
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: postgres
-          SPRING_LIQUIBASE_ENABLED: true
+          SPRING_PROFILES_ACTIVE: test
         run: ./mvnw verify --no-transfer-progress
 
       - name: Upload Coverage Report

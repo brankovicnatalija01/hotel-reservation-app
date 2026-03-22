@@ -26,6 +26,11 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_USER = "USER";
+    private static final String RESERVATIONS_ALL = "/api/reservations/**";
+    private static final String ROOMS_BY_ID = "/api/rooms/{id}";
+
     private UserDetailsServiceImpl userDetailsService;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
@@ -62,11 +67,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-        private static final String ROLE_ADMIN = "ADMIN";
-        private static final String ROLE_USER = "USER";
-        private static final String RESERVATIONS_ALL = "/api/reservations/**";
-        private static final String ROOMS_BY_ID = "/api/rooms/{id}";
-
         http.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

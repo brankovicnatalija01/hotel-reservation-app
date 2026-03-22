@@ -15,7 +15,7 @@ import java.util.List;
 public class RoomController {
     private final RoomService reviewService;
 
-    public RoomService(RoomService roomService) {
+    public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 

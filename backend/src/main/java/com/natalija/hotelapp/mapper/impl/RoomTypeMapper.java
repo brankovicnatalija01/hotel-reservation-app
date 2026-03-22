@@ -1,6 +1,6 @@
 package com.natalija.hotelapp.mapper.impl;
-import com.natalija.hotelapp.dto.roomType.RoomTypeRequestDTO;
-import com.natalija.hotelapp.dto.roomType.RoomTypeResponseDTO;
+import com.natalija.hotelapp.dto.roomtype.RoomTypeRequestDTO;
+import com.natalija.hotelapp.dto.roomtype.RoomTypeResponseDTO;
 import com.natalija.hotelapp.entity.RoomType;
 import com.natalija.hotelapp.mapper.Mapper;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,6 @@
 package com.natalija.hotelapp.config;
 
 import com.natalija.hotelapp.security.AuthTokenFilter;
-import com.natalija.hotelapp.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,12 +31,9 @@ public class SecurityConfig {
     private static final String RESERVATIONS_ALL = "/api/reservations/**";
     private static final String ROOMS_BY_ID = "/api/rooms/{id}";
 
-    private final UserDetailsServiceImpl userDetailsService;
     private final AuthTokenFilter authTokenFilter;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService,
-                          AuthTokenFilter authTokenFilter) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(AuthTokenFilter authTokenFilter) {
         this.authTokenFilter = authTokenFilter;
     }
 
@@ -47,7 +43,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
         return authConfig.getAuthenticationManager();
     }
 
@@ -65,7 +61,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws jakarta.servlet.ServletException {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         http.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

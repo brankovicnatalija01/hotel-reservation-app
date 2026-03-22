@@ -1,6 +1,6 @@
 package com.natalija.hotelapp.service.impl;
 
-import com.natalija.hotelapp.dto.roomType.RoomTypeResponseDTO;
+import com.natalija.hotelapp.dto.roomtype.RoomTypeResponseDTO;
 import com.natalija.hotelapp.mapper.impl.RoomTypeMapper;
 import com.natalija.hotelapp.repository.RoomTypeRepository;
 import com.natalija.hotelapp.service.RoomTypeService;

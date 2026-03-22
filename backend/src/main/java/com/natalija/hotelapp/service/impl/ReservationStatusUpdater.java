@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class ReservationStatusUpdater {
-    private final ReservationRepository userRepository;
+    private final ReservationRepository reservationRepository;
 
     public ReservationStatusUpdater(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;

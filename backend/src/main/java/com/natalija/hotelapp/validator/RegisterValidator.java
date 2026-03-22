@@ -17,10 +17,6 @@ public class RegisterValidator implements Validator<RegisterRequestDTO>{
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?\\d{8,15}$");
     private static final Pattern NAME_PATTERN = Pattern.compile("^[A-Za-z]{2,}$");
 
-    public RegisterValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public void validate(RegisterRequestDTO dto) throws ValidationException {
         validateEmail(dto.getEmail());

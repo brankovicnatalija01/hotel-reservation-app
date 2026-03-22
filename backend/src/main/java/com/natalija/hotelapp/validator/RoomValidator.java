@@ -26,19 +26,6 @@ public class RoomValidator implements Validator<RoomRequestDTO>{
     private final AmenityRepository amenityRepository;
     private final RoomRepository roomRepository;
 
-
-    public RoomValidator(ValidationType validationType,
-                         PropertyRepository propertyRepository,
-                         RoomTypeRepository roomTypeRepository,
-                         AmenityRepository amenityRepository,
-                         RoomRepository roomRepository) {
-        this.validationType = validationType;
-        this.propertyRepository = propertyRepository;
-        this.roomTypeRepository = roomTypeRepository;
-        this.amenityRepository = amenityRepository;
-        this.roomRepository = roomRepository;
-    }
-
     @Override
     public void validate(RoomRequestDTO dto) throws ValidationException {
         validatePropertyExists(dto);

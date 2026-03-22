@@ -12,6 +12,8 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import com.natalija.hotelapp.security.JwtUtils;
+import com.natalija.hotelapp.security.UserDetailsServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,10 @@ class RoomControllerTest {
 
     @MockitoBean
     private RoomService roomService;
+    @MockitoBean
+    private UserDetailsServiceImpl userDetailsService;
+    @MockitoBean
+    private JwtUtils jwtUtils;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

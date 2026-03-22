@@ -22,17 +22,12 @@ public class ReviewValidator implements Validator<ReviewRequestDTO>{
 
     @Override
     public void validate(ReviewRequestDTO dto) throws ValidationException {
-        if(dto.getRating() != null) {
-            if (dto.getRating() < 1 || dto.getRating() > 10) {
-                throw new ValidationException("Rating must be between 1 and 10");
-            }
+        if (dto.getRating() != null && (dto.getRating() < 1 || dto.getRating() > 10)) {
+            throw new ValidationException("Rating must be between 1 and 10");
         }
 
-        // Validate comment length
-        if(dto.getComment() != null) {
-            if (dto.getComment().length() > 300) {
-                throw new ValidationException("Comment cannot exceed 300 characters");
-            }
+        if (dto.getComment() != null && dto.getComment().length() > 300) {
+            throw new ValidationException("Comment cannot exceed 300 characters");
         }
 
         if (validationType == ValidationType.CREATE) {
@@ -40,7 +35,6 @@ public class ReviewValidator implements Validator<ReviewRequestDTO>{
         } else if (validationType == ValidationType.UPDATE) {
             validateUpdate(dto);
         }
-
     }
 
     private void validateUpdate(ReviewRequestDTO dto) {

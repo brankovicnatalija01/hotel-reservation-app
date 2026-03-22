@@ -55,8 +55,8 @@ public class AuthServiceImpl implements AuthService {
 
         // 4. Safely extract UserDetailsImpl to avoid NullPointerException
         UserDetailsImpl userDetails = Optional.ofNullable(authentication.getPrincipal())
-                .filter(principal -> principal instanceof UserDetailsImpl)
-                .map(principal -> (UserDetailsImpl) principal)
+                .filter(UserDetailsImpl.class::isInstance)
+                .map(UserDetailsImpl.class::cast)
                 .orElseThrow(() -> new RuntimeException("Error: Could not retrieve user details from context."));
 
         // 5. Safely extract Role (adding ROLE_ prefix if needed)

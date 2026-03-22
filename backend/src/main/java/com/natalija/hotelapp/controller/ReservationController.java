@@ -5,7 +5,6 @@ import com.natalija.hotelapp.dto.reservation.ReservationResponseDTO;
 import com.natalija.hotelapp.dto.reservation.ReservationSearchRequestDTO;
 import com.natalija.hotelapp.service.ReservationService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
+    private final ReservationService reservationService;
 
-    @Autowired
-    private ReservationService reservationService;
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @PostMapping // Create Reservation
     public ResponseEntity<ReservationResponseDTO> createReservation(@Valid @RequestBody ReservationRequestDTO dto) {

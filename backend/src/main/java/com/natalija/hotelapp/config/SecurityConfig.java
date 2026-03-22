@@ -2,7 +2,6 @@ package com.natalija.hotelapp.config;
 
 import com.natalija.hotelapp.security.AuthTokenFilter;
 import com.natalija.hotelapp.security.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,16 +27,18 @@ import java.util.Arrays;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_USER = "USER";
+    private static final String RESERVATIONS_ALL = "/api/reservations/**";
+    private static final String ROOMS_BY_ID = "/api/rooms/{id}";
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    private final UserDetailsServiceImpl userDetailsService;
+    private final AuthTokenFilter authTokenFilter;
+
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService,
+                          AuthTokenFilter authTokenFilter) {
         this.userDetailsService = userDetailsService;
-    }
-
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        this.authTokenFilter = authTokenFilter;
     }
 
     @Bean
@@ -46,7 +47,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
@@ -64,35 +65,34 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws jakarta.servlet.ServletException {
         http.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        // --- PUBLIC
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/rooms", "/api/rooms/filter/**", "/api/amenities").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/rooms/search").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/reviews", "/api/reviews/room/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/room-types").permitAll()
 
-                                // --- USER and ADMIN  ---
-                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/reviews").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/reviews/**", "/api/reservations/cancel/*").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/reviews/user/**", "/api/reservations/user/**").hasAnyRole("USER", "ADMIN")
+                                // --- USER and ADMIN ---
+                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/reviews").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.PUT, "/api/reviews/**", "/api/reservations/cancel/*").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/reviews/user/**", "/api/reservations/user/**").hasAnyRole(ROLE_USER, ROLE_ADMIN)
 
                                 // --- ADMIN ONLY ---
-                                .requestMatchers("/api/reservations/search").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
+                                .requestMatchers("/api/reservations/search").hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.GET, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.PUT, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
 
                                 .anyRequest().authenticated()
                 );
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

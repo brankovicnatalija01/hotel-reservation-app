@@ -32,6 +32,8 @@ public class RoomServiceImpl implements RoomService {
     private final RoomMapper roomMapper;
     private final RoomValidatorFactory roomValidatorFactory;
 
+    private static final String ROOM_NOT_FOUND = "Room not found with ID: ";
+
     @Override
     public List<RoomResponseDTO> getAllRooms() {
         return roomRepository.findAll()
@@ -42,7 +44,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomResponseDTO getRoomById(Long roomId) throws EntityNotFoundException {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found with ID: " + roomId));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException(ROOM_NOT_FOUND + roomId));
         return roomMapper.toDto(room);
     }
 
@@ -120,7 +122,7 @@ public class RoomServiceImpl implements RoomService {
 
         // Fetch the existing room
         Room existingRoom = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found with ID: " + roomId));
+                .orElseThrow(() -> new EntityNotFoundException(ROOM_NOT_FOUND + roomId));
 
         // Set fields if present
         if (dto.getPropertyId() != null) existingRoom.setProperty(propertyRepository.findById(dto.getPropertyId()).get());
@@ -147,7 +149,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void deleteRoom(Long roomId) throws EntityNotFoundException {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found with ID: " + roomId));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException(ROOM_NOT_FOUND + roomId));
         roomRepository.delete(room);
     }
 

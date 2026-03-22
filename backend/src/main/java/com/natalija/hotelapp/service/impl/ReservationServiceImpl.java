@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,6 +35,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomRepository roomRepository;
     private final ReservationMapper reservationMapper;
     private final ReservationValidator reservationValidator;
+
+    private static final String RESERVATION_NOT_FOUND = "Reservation not found with id: ";
 
     @Override
     public ReservationResponseDTO createReservation(ReservationRequestDTO dto) {
@@ -57,7 +58,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponseDTO getReservationById(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID: " + reservationId));
+                .orElseThrow(() -> new EntityNotFoundException(RESERVATION_NOT_FOUND + reservationId));
         return reservationMapper.toDto(reservation);
     }
 
@@ -69,27 +70,27 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
         return reservations.stream()
                 .map(reservationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<ReservationResponseDTO> getAllReservations() {
         return reservationRepository.findAll().stream()
                 .map(reservationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public void deleteReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found with id: " + reservationId));
+                .orElseThrow(() -> new EntityNotFoundException(RESERVATION_NOT_FOUND + reservationId));
         reservationRepository.delete(reservation);
     }
 
     @Override
     public ReservationResponseDTO cancelReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found with id: " + reservationId));
+                .orElseThrow(() -> new EntityNotFoundException(RESERVATION_NOT_FOUND + reservationId));
 
         if (reservation.getStatus() == ReservationStatus.CANCELLED) {
             throw new ValidationException("Reservation is already cancelled");
@@ -103,7 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponseDTO approveReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found with id: " + reservationId));
+                .orElseThrow(() -> new EntityNotFoundException(RESERVATION_NOT_FOUND + reservationId));
 
         if (reservation.getStatus() != ReservationStatus.PENDING) {
             throw new ValidationException("Only PENDING reservations can be approved");
@@ -117,7 +118,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponseDTO rejectReservation(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found with id: " + reservationId));
+                .orElseThrow(() -> new EntityNotFoundException(RESERVATION_NOT_FOUND + reservationId));
 
         if (reservation.getStatus() != ReservationStatus.PENDING) {
             throw new ValidationException("Only PENDING reservations can be rejected");

@@ -4,7 +4,6 @@ import com.natalija.hotelapp.entity.Reservation;
 import com.natalija.hotelapp.enums.ReservationStatus;
 import com.natalija.hotelapp.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +12,11 @@ import java.util.List;
 
 @Service
 public class ReservationStatusUpdater {
+    private final ReservationRepository reservationRepository;
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    public ReservationStatusUpdater(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     // Runs every hour
     @Scheduled(cron = "0 0 * * * *")
@@ -37,7 +38,5 @@ public class ReservationStatusUpdater {
 
         reservationRepository.saveAll(confirmedToComplete);
         reservationRepository.saveAll(pendingToExpired);
-
-        System.out.println("Statuses updated for " + (confirmedToComplete.size() + pendingToExpired.size()) + " reservations.");
     }
 }

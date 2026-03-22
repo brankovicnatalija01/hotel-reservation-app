@@ -18,7 +18,4 @@ public class Amenity {
 
     @Column(nullable = false, unique = true)
     private String name;
-
-   // @ManyToMany(mappedBy = "amenities")
-  //  private Set<Room> rooms;
 }

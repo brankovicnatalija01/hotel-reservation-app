@@ -4,7 +4,6 @@ import com.natalija.hotelapp.dto.room.RoomRequestDTO;
 import com.natalija.hotelapp.dto.room.RoomResponseDTO;
 import com.natalija.hotelapp.dto.room.RoomSearchRequestDTO;
 import com.natalija.hotelapp.service.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
+    private final RoomService roomService;
 
-    @Autowired
-    private RoomService roomService;
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     // Get All Rooms
     @GetMapping

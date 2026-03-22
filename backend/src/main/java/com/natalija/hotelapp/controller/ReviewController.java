@@ -14,9 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
+    private final ReviewService reviewService;
 
-    @Autowired
-    private ReviewService reviewService;
+    public ReviewService(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @PostMapping
     public ResponseEntity<ReviewResponseDTO> createReview(@RequestBody ReviewRequestDTO dto) {

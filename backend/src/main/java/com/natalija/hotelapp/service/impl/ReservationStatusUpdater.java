@@ -13,9 +13,11 @@ import java.util.List;
 
 @Service
 public class ReservationStatusUpdater {
+    private final ReservationRepository userRepository;
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    public ReservationStatusUpdater(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     // Runs every hour
     @Scheduled(cron = "0 0 * * * *")
@@ -37,7 +39,5 @@ public class ReservationStatusUpdater {
 
         reservationRepository.saveAll(confirmedToComplete);
         reservationRepository.saveAll(pendingToExpired);
-
-        System.out.println("Statuses updated for " + (confirmedToComplete.size() + pendingToExpired.size()) + " reservations.");
     }
 }

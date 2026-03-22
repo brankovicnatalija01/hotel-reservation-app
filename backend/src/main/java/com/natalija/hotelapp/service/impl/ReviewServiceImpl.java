@@ -61,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviews = reviewRepository.findAllByReservation_User_Id(userId);
         return reviews.stream()
                 .map(reviewMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviews = reviewRepository.findAllByReservation_Room_Id(roomId);
         return reviews.stream()
                 .map(reviewMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

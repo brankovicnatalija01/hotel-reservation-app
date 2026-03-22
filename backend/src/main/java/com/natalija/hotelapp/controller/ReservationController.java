@@ -15,9 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
+    private final ReservationService reservationService;
 
-    @Autowired
-    private ReservationService reservationService;
+    public ReservationService(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @PostMapping // Create Reservation
     public ResponseEntity<ReservationResponseDTO> createReservation(@Valid @RequestBody ReservationRequestDTO dto) {

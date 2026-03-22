@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomSpecification {
+
+    private RoomSpecification() {
+        // Utility class - prevent instantiation
+    }
+
     public static Specification<Room> filter(RoomSearchRequestDTO req) {
         return (root, query, cb) -> {
 

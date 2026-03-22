@@ -13,9 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/room-types")
 public class RoomTypeController {
+    private final RoomTypeService roomTypeService;
 
-    @Autowired
-    private RoomTypeService roomTypeService;
+    public RoomTypeService(RoomTypeService roomTypeService) {
+        this.roomTypeService = roomTypeService;
+    }
 
     @GetMapping
     public ResponseEntity<List<RoomTypeResponseDTO>> getAll() {

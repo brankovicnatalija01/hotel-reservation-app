@@ -27,49 +27,81 @@ public class RoomValidator implements Validator<RoomRequestDTO>{
     private final RoomRepository roomRepository;
 
 
+    public RoomValidator(ValidationType validationType,
+                         PropertyRepository propertyRepository,
+                         RoomTypeRepository roomTypeRepository,
+                         AmenityRepository amenityRepository,
+                         RoomRepository roomRepository) {
+        this.validationType = validationType;
+        this.propertyRepository = propertyRepository;
+        this.roomTypeRepository = roomTypeRepository;
+        this.amenityRepository = amenityRepository;
+        this.roomRepository = roomRepository;
+    }
+
     @Override
     public void validate(RoomRequestDTO dto) throws ValidationException {
-        if (dto.getPropertyId() != null &&
-                propertyRepository.findById(dto.getPropertyId()).isEmpty()) {
-            throw new EntityNotFoundException("Property not found with ID: " + dto.getPropertyId());
-        }
-
-        if (dto.getRoomTypeId() != null &&
-                roomTypeRepository.findById(dto.getRoomTypeId()).isEmpty()) {
-            throw new EntityNotFoundException("RoomType not found with ID: " + dto.getRoomTypeId());
-        }
-
-        if (dto.getAmenityIds() != null && !dto.getAmenityIds().isEmpty()) {
-            validateAmenities(dto.getAmenityIds());
-        }
-
-        if (dto.getRoomNumber() != null && !dto.getRoomNumber().matches("\\d{3}")) {
-            throw new ValidationException("Room number must be a 3-digit number");
-        }
-
-        // Unique room number per property
-        if (dto.getRoomNumber() != null)  {
-            if(dto.getPropertyId() == null) {
-                throw new ValidationException("Please provide property ID for updating a room");
-            } else {
-                if(roomRepository.existsByRoomNumberAndProperty_Id(dto.getRoomNumber(), dto.getPropertyId())) {
-                    throw new ValidationException("Room with room number " + dto.getRoomNumber()+ " already exists in this property");
-                }
-            }
-        }
-
-        if (dto.getPricePerNight() != null && dto.getPricePerNight().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new ValidationException("Price per night must be greater than 0");
-        }
-
-        if (dto.getDescription() != null && dto.getDescription().length() > 100) {
-            throw new ValidationException("Description cannot exceed 100 characters");
-        }
+        validatePropertyExists(dto);
+        validateRoomTypeExists(dto);
+        validateAmenitiesIfPresent(dto);
+        validateRoomNumber(dto);
+        validatePrice(dto);
+        validateDescription(dto);
 
         if (validationType == ValidationType.CREATE) {
             validateCreate(dto);
         } else if (validationType == ValidationType.UPDATE) {
             validateUpdate(dto);
+        }
+    }
+
+    private void validatePropertyExists(RoomRequestDTO dto) {
+        if (dto.getPropertyId() != null &&
+                propertyRepository.findById(dto.getPropertyId()).isEmpty()) {
+            throw new EntityNotFoundException("Property not found with ID: " + dto.getPropertyId());
+        }
+    }
+
+    private void validateRoomTypeExists(RoomRequestDTO dto) {
+        if (dto.getRoomTypeId() != null &&
+                roomTypeRepository.findById(dto.getRoomTypeId()).isEmpty()) {
+            throw new EntityNotFoundException("RoomType not found with ID: " + dto.getRoomTypeId());
+        }
+    }
+
+    private void validateAmenitiesIfPresent(RoomRequestDTO dto) {
+        if (dto.getAmenityIds() != null && !dto.getAmenityIds().isEmpty()) {
+            validateAmenities(dto.getAmenityIds());
+        }
+    }
+
+    private void validateRoomNumber(RoomRequestDTO dto) {
+        if (dto.getRoomNumber() != null && !dto.getRoomNumber().matches("\\d{3}")) {
+            throw new ValidationException("Room number must be a 3-digit number");
+        }
+        if (dto.getRoomNumber() != null) {
+            validateRoomNumberUniqueness(dto);
+        }
+    }
+
+    private void validateRoomNumberUniqueness(RoomRequestDTO dto) {
+        if (dto.getPropertyId() == null) {
+            throw new ValidationException("Please provide property ID for updating a room");
+        }
+        if (roomRepository.existsByRoomNumberAndProperty_Id(dto.getRoomNumber(), dto.getPropertyId())) {
+            throw new ValidationException("Room with room number " + dto.getRoomNumber() + " already exists in this property");
+        }
+    }
+
+    private void validatePrice(RoomRequestDTO dto) {
+        if (dto.getPricePerNight() != null && dto.getPricePerNight().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ValidationException("Price per night must be greater than 0");
+        }
+    }
+
+    private void validateDescription(RoomRequestDTO dto) {
+        if (dto.getDescription() != null && dto.getDescription().length() > 100) {
+            throw new ValidationException("Description cannot exceed 100 characters");
         }
     }
 
@@ -82,29 +114,21 @@ public class RoomValidator implements Validator<RoomRequestDTO>{
                 (dto.getAmenityIds() == null || dto.getAmenityIds().isEmpty())) {
             throw new ValidationException("At least one field must be provided for updating a room");
         }
-
-        if (dto.getRoomNumber() != null) {
-            if (dto.getRoomNumber().isBlank()) {
-                throw new ValidationException("Room number cannot be empty");
-            }
+        if (dto.getRoomNumber() != null && dto.getRoomNumber().isBlank()) {
+            throw new ValidationException("Room number cannot be empty");
         }
-
         if (dto.getDescription() != null && dto.getDescription().isBlank()) {
             throw new ValidationException("Description cannot be empty");
         }
-
     }
 
-
-    private void validateCreate(RoomRequestDTO dto) throws ValidationException {
+    private void validateCreate(RoomRequestDTO dto) {
         if (dto.getPropertyId() == null) {
             throw new ValidationException("Property ID is required for creating a room");
         }
-
         if (dto.getRoomTypeId() == null) {
             throw new ValidationException("RoomType ID is required for creating a room");
         }
-
         if (dto.getRoomNumber() == null || dto.getRoomNumber().isBlank()) {
             throw new ValidationException("Room number is required for creating a room");
         }
@@ -114,15 +138,13 @@ public class RoomValidator implements Validator<RoomRequestDTO>{
         if (dto.getDescription() == null || dto.getDescription().isBlank()) {
             throw new ValidationException("Description is required for creating a room");
         }
-
     }
 
-    private void validateAmenities(List<Long> amenityIds) throws ValidationException {
+    private void validateAmenities(List<Long> amenityIds) {
         Set<Long> existingAmenityIds = new HashSet<>();
         for (Amenity a : amenityRepository.findAllById(amenityIds)) {
             existingAmenityIds.add(a.getId());
         }
-
         for (Long id : amenityIds) {
             if (!existingAmenityIds.contains(id)) {
                 throw new EntityNotFoundException("Amenity not found with ID: " + id);

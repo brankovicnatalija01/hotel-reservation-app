@@ -14,9 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
+    private final RoomService reviewService;
 
-    @Autowired
-    private RoomService roomService;
+    public RoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     // Get All Rooms
     @GetMapping

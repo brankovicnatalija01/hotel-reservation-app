@@ -27,8 +27,6 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
@@ -64,7 +62,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
+        private static final String ROLE_ADMIN = "ADMIN";
+        private static final String ROLE_USER = "USER";
+        private static final String RESERVATIONS_ALL = "/api/reservations/**";
+        private static final String ROOMS_BY_ID = "/api/rooms/{id}";
+
         http.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -76,18 +79,18 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/reviews", "/api/reviews/room/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/room-types").permitAll()
 
-                                // --- USER and ADMIN  ---
-                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/reviews").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/reviews/**", "/api/reservations/cancel/*").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/reviews/user/**", "/api/reservations/user/**").hasAnyRole("USER", "ADMIN")
+                                // --- USER and ADMIN ---
+                                .requestMatchers(HttpMethod.POST, "/api/reservations", "/api/reviews").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.PUT, "/api/reviews/**", "/api/reservations/cancel/*").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasAnyRole(ROLE_USER, ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/reviews/user/**", "/api/reservations/user/**").hasAnyRole(ROLE_USER, ROLE_ADMIN)
 
                                 // --- ADMIN ONLY ---
-                                .requestMatchers("/api/reservations/search").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/reservations/**", "/api/rooms/{id}").hasRole("ADMIN")
+                                .requestMatchers("/api/reservations/search").hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.GET, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.PUT, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, RESERVATIONS_ALL, ROOMS_BY_ID).hasRole(ROLE_ADMIN)
 
                                 .anyRequest().authenticated()
                 );

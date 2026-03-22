@@ -33,6 +33,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO dto) {
         authService.register(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User registered successfully"));
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }

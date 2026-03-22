@@ -19,6 +19,7 @@ import java.io.IOException;
 /**
  * Filter that executes once per request and validates the JWT token.
  */
+@Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;

@@ -1,3 +1,5 @@
+![CI Pipeline](https://github.com/brankovicnatalija01/hotel-reservation-app/actions/workflows/ci.yml/badge.svg)
+
 # 🌲 Pine Mountain Lodge - Hotel Reservation System
 
 A full-stack luxury hotel management and reservation platform designed for mountain retreats. This project features a **Spring Boot** backend and a dynamic **React** frontend, providing a seamless experience for both guests and administrators.

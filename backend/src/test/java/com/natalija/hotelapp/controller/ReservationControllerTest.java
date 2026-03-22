@@ -30,8 +30,7 @@ class ReservationControllerTest {
     @MockitoBean
     private ReservationService reservationService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void createReservation_ShouldReturnCreated() throws Exception {

@@ -32,8 +32,7 @@ class RoomControllerTest {
     @MockitoBean
     private RoomService roomService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Test

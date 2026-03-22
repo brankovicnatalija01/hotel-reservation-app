@@ -1,6 +1,6 @@
 package com.natalija.hotelapp.service;
 
-import com.natalija.hotelapp.dto.roomType.RoomTypeResponseDTO;
+import com.natalija.hotelapp.dto.roomtype.RoomTypeResponseDTO;
 
 import java.util.List;
 

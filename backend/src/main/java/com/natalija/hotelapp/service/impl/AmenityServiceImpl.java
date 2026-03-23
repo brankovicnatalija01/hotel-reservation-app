@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class AmenityServiceImpl implements AmenityService {
-
+   // comment
     private final AmenityRepository amenityRepository;
     private final AmenityMapper amenityMapper;
 

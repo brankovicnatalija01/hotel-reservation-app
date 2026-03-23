@@ -107,6 +107,7 @@ class ReservationServiceImplTest {
         when(reservationRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> reservationService.deleteReservation(1L));
     }
+
     @Test
     void approveReservation_Success() {
         Reservation res = new Reservation();

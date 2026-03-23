@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - main
-      - develop
-      - test-ci-pipeline
   pull_request:
     branches:
       - main
-      - develop
-      - test-ci-pipeline
 
 jobs:
 
@@ -59,7 +55,7 @@ jobs:
       - name: Run Checkstyle
         working-directory: backend
         run: ./mvnw checkstyle:check --no-transfer-progress
-        
+
       - name: Run Tests with Coverage
         working-directory: backend
         env:

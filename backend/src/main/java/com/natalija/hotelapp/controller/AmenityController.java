@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/amenities")
 public class AmenityController {
-
+   // comment
     private final AmenityService amenityService;
 
     public AmenityController(AmenityService amenityService) {
